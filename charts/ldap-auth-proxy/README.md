@@ -5,7 +5,7 @@ This chart installs [LDAP Auth Proxy](http://github.com/pinepain/ldap-auth-proxy
 ## Installation
 
 ```bash
-helm install ldap-auth-proxy oci://registry-1.docker.io/valensas/ldap-auth-proxy \
+helm install ldap-auth-proxy oci://ghcr.io/valensas/charts/ldap-auth-proxy \
   --set ldapServer=ldap.example.com \
   --set ldapBase=dc=example,dc=com \
   --set ldapGroupFilter=(&(objectClass=groupOfNames)(member=uid=%s,cn=users,dc=example,dc=com)) \

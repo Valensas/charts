@@ -5,7 +5,7 @@ This charts allows you to easily deploy [PgHerp](https://github.com/ankane/pgher
 ## Installation
 
 ```bash
-helm install oci://registry-1.docker.io/valensas/pghero \
+helm install oci://ghcr.io/valensas/charts/pghero \
   --set config.databases.mydb.url=postgres://username:password@postgres-host:5432/postgres-db
 ```
 

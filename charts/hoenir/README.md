@@ -5,7 +5,7 @@ Deploys [Hoenir](https://github.com/Valensas/Hoenir), enabling a number of Kuber
 ## Installation
 
 ```bash
-helm install hoenir oci://registry-1.docker.io/valensas/hoenir
+helm install hoenir oci://ghcr.io/valensas/charts/hoenir
 ```
 
 Take a look at `values.yaml` for all available configuration options.
