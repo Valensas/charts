@@ -5,7 +5,7 @@ on:
     tags: ['*/*']
 
 env:
-  REGISTRY: registry-1.docker.io
+  REGISTRY: ghcr.io/valensas/charts
 
 jobs:
   extract-values:
@@ -40,7 +40,7 @@ jobs:
           version: v3.12.0
 
       - name: Helm login
-        run: helm registry login "$REGISTRY" -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+        run: helm registry login "$REGISTRY" -u "${{ github.actor }}" -p "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Helm package
         run: |
@@ -48,4 +48,4 @@ jobs:
           helm package "charts/${{needs.extract-values.outputs.chart}}"
 
       - name: Helm push
-        run: helm push "${{needs.extract-values.outputs.chart}}-${{needs.extract-values.outputs.version}}.tgz" "oci://$REGISTRY/valensas"
+        run: helm push "${{needs.extract-values.outputs.chart}}-${{needs.extract-values.outputs.version}}.tgz" "oci://$REGISTRY"
