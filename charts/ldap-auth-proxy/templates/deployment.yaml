@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ldap-auth-proxy.fullname" . }}
+  labels:
+    {{- include "ldap-auth-proxy.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "ldap-auth-proxy.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+      {{- if .Values.podAnnotations }}
+        {{- toYaml .Values.podAnnotations | nindent 8 }}
+      {{- end }}
+        config/nginx-config: {{ include (print $.Template.BasePath "/nginx-config.yaml") . | sha256sum | quote }}
+        secret/ldap-auth-secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum | quote }}
+      labels:
+        {{- include "ldap-auth-proxy.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Release.Name }}-auth
+          ports:
+            - containerPort: 8888
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: 8888
+          readinessProbe:
+            tcpSocket:
+              port: 8888
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        - name: nginx
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.proxy.repository }}:{{ .Values.proxy.tag}}"
+          volumeMounts:
+          - name: config-volume
+            mountPath: /etc/nginx/conf.d
+          imagePullPolicy: {{ .Values.proxy.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: http
+          readinessProbe:
+            tcpSocket:
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ include "ldap-auth-proxy.fullname" . }}-nginx-config
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

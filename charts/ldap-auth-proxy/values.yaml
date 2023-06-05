@@ -1,0 +1,74 @@
+
+replicaCount: 1
+
+# Image configuration
+image:
+  repository: pinepain/ldap-auth-proxy
+  pullPolicy: IfNotPresent
+  # tag: ""
+
+# Nginx proxy settings
+proxy:
+  repository: nginx
+  tag: "1.25.0-alpine"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+resources: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+# LDAP server to connect to
+ldapServer: ""
+# LDAP search root
+ldapBase: 'o=<oid>,dc=jumpcloud,dc=com'
+# LDAP user search pattern
+ldapUserFilter: '(uid=%s)'
+# Filter for groups
+ldapGroupFilter: '(&(objectClass=groupOfNames)(member=uid=%s,ou=Users,o=<oid>,dc=jumpcloud,dc=com))'
+# Groups to authorize access to
+ldapAuthorizeGroups: []
+# Header to add the group name
+groupHeader: 'X-Ldap-Group'
+# Values to map LDAP attributes to request headers
+headersMap: 'X-LDAP-Mail:mail,X-LDAP-UID:uid,X-LDAP-CN:cn,X-LDAP-DN:dn'
+# LDAP bind user dn
+ldapBindDn: 'uid=<bind user name>,ou=Users,o=<oid>,dc=jumpcloud,dc=com'
+# LDAP bind password
+ldapBindPassword: password
+urlAuthPath: /_external-auth-:orig-location-template
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
