@@ -1,0 +1,86 @@
+{{ $roleKind := "ClusterRole" }}
+{{ $roleBindingKind := "ClusterRoleBinding" }}
+{{- if .Values.watchNamespace }}
+{{ $roleKind = "Role" }}
+{{ $roleBindingKind = "RoleBinding" }}
+{{- end }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: {{ $roleKind }}
+metadata:
+  name: {{ include "hoenir.fullname" . }}-virtualservice-controller
+  {{- if .Values.watchNamespace }}
+  namespace: {{ .Values.watchNamespace }}
+  {{- end }}
+rules:
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  verbs:
+  - get
+  - list
+  - watch
+  - update
+  - create
+  - delete
+- apiGroups:
+  - networking.istio.io
+  resources:
+  - virtualservices
+  verbs:
+  - get
+  - list
+  - watch
+  - update
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: {{ $roleBindingKind }}
+metadata:
+  name: {{ include "hoenir.fullname" . }}-virtualservice-controller
+  {{- if .Values.watchNamespace }}
+  namespace: {{ .Values.watchNamespace }}
+  {{- end }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: {{ $roleKind }}
+  name: {{ include "hoenir.fullname" . }}-virtualservice-controller
+subjects:
+- kind: ServiceAccount
+  name: {{ include "hoenir.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: {{ $roleKind }}
+metadata:
+  name: {{ include "hoenir.fullname" . }}-grafana-controller
+  {{- if .Values.watchNamespace }}
+  namespace: {{ .Values.watchNamespace }}
+  {{- end }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - update
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: {{ $roleBindingKind }}
+metadata:
+  name: {{ include "hoenir.fullname" . }}-grafana-controller
+  {{- if .Values.watchNamespace }}
+  namespace: {{ .Values.watchNamespace }}
+  {{- end }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: {{ $roleKind }}
+  name: {{ include "hoenir.fullname" . }}-grafana-controller
+subjects:
+- kind: ServiceAccount
+  name: {{ include "hoenir.fullname" . }}
+  namespace: {{ .Release.Namespace }}
