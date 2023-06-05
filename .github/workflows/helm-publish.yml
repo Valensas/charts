@@ -1,0 +1,51 @@
+name: Create and publish a Docker image
+
+on:
+  push:
+    tags: ['*/*']
+
+env:
+  REGISTRY: registry-1.docker.io
+
+jobs:
+  extract-values:
+    runs-on: ubuntu-latest
+    outputs:
+      chart: ${{ steps.extract-image-tag.outputs.chart }}
+      version: ${{ steps.extract-image-tag.outputs.version }}
+    steps:
+      - name: Extract image and tag
+        id: extract-image-tag
+        run: IFS='/' read CHART VERSION <<< "${GITHUB_REF_NAME}" && echo "chart=$CHART" >> "$GITHUB_OUTPUT" && echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+  package-and-push-chart:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    needs: extract-values
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.12.0
+
+      - name: Helm login
+        run: helm registry login "$REGISTRY" -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+
+      - name: Helm package
+        run: |
+          echo "Packaging chart ${{needs.extract-values.outputs.chart}} version ${{needs.extract-values.outputs.version}}"
+          helm package "charts/${{needs.extract-values.outputs.chart}}"
+
+      - name: Helm push
+        run: helm push "${{needs.extract-values.outputs.chart}}-${{needs.extract-values.outputs.version}}.tgz" "oci://$REGISTRY/valensas"
