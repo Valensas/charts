@@ -1,0 +1,66 @@
+
+replicaCount: 1
+
+# Container image settings
+image:
+  repository: ankane/pghero
+#  tag:
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+# Service settings
+service:
+  type: ClusterIP
+  port: 80
+
+# PgHero configuration see https://github.com/ankane/pghero/blob/master/lib/generators/pghero/templates/config.yml.tt
+config: {}
+#  databases:
+#    primary:
+#      url:
+
+# Ingress settings
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+
+  hosts:
+    - host: example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
+resources: {}
+
+# Configure Horizontal Pod Autoscaler
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

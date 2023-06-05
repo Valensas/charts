@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pghero.fullname" . }}
+  labels:
+    {{- include "pghero.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "pghero.selectorLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "pghero.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+    spec:
+      containers:
+      - name: pghero
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- with .Values.resources }}
+        resources:
+          {{- . | toYaml | nindent 10 }}
+        {{- end }}
+        volumeMounts:
+        - name: pghero-secret
+          mountPath: /app/config/pghero.yml
+          readOnly: true
+          subPath: pghero.yml
+        envFrom:
+          - secretRef:
+              name: {{ include "pghero.fullname" . }}
+        ports:
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+        livenessProbe:
+          httpGet:
+            port: http
+            path: /health
+        readinessProbe:
+          httpGet:
+            port: http
+            path: /health
+      volumes:
+      - name: pghero-secret
+        secret:
+          defaultMode: 0644
+          secretName: {{ include "pghero.fullname" . }}
+
