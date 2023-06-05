@@ -1,0 +1,95 @@
+terminationGracePeriodSeconds: 30
+replicas: 1
+
+# Container image settings
+image:
+  repository: btcpayserver/bitcoin
+  pullPolicy: IfNotPresent
+
+# Prometheus Operator monitoring
+metrics:
+  enabled: true
+  image:
+    repository: jvstein/bitcoin-prometheus-exporter
+    tag: v0.7.0
+  podMonitor:
+    enabled: true
+    interval: 30s
+    path: /metrics
+    targetPort: 9332
+    targetLabels:
+      - reference
+      - network
+
+# Command to run for the container
+command: ['bitcoind', '-datadir=/data', '-conf=/conf/bitcoin.conf']
+
+# Monitoring rules for Prometheus Operator
+prometheusRules:
+  enabled: true
+  # Monitor the number of peers
+  peers:
+    enabled: true
+    warningTreshold: 6
+    criticalTreshold: 3
+    for: 5m
+  # Monitor block difference from o reference
+  blockDiff:
+    enabled: true
+    referenceMetric: bitcoin_blocks{reference="true"}
+    warningFor: 20m
+    criticalFor: 1h
+    # Enable or disable alerting when the block height is ahead the reference.
+    # Might be useful on testnet, where explorers regularly fall behind.
+    alertOnHeightAhead: true
+
+service:
+  port: 8332
+
+# Storage settings
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 600Gi
+#  storageClass:
+
+# Adds custom labels to pods
+extraPodLabels:
+  reference: 'false'
+  network: 'bitcoin_{{ if.Values.testnet }}testnet{{else}}mainnet{{end}}'
+
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
+resources: {}
+#  requests:
+#    memory: 512Mi
+#    cpu: 300m
+
+# RPC configuration
+rpc:
+  user: admin
+  password: admin
+  threads: 16
+  workqueue: 128
+
+# Enable to use testnet
+testnet: false
+
+# Bitcoind configuration file, supports templating
+configuration: |
+  server=1
+  rpcallowip=0.0.0.0/0
+  rpcbind=0.0.0.0:8332
+  rpcuser={{ .Values.rpc.user }}
+  rpcpassword={{ .Values.rpc.password }}
+  # Set the number of threads to service RPC calls
+  rpcthreads={{ .Values.rpc.threads }}
+  # Set the depth of the work queue to service RPC calls
+  rpcworkqueue={{ .Values.rpc.workqueue }}
+  txindex=1
+  {{- if .Values.testnet }}
+  testnet=1
+  [test]
+  rpcbind=0.0.0.0:8332
+  {{- end }}

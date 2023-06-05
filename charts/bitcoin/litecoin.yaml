@@ -1,0 +1,8 @@
+image:
+  repository: btcpayserver/litecoin
+  tag: 0.21.2.1-2
+
+extraPodLabels:
+  network: 'litecoin_{{ if.Values.testnet }}testnet{{else}}mainnet{{end}}'
+
+command: ['litecoind', '-datadir=/data', '-conf=/conf/bitcoin.conf']

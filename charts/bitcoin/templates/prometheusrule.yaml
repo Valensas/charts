@@ -1,0 +1,74 @@
+{{- if .Values.metrics.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ template "bitcoind.fullname" . }}
+  labels:
+    app: {{ template "bitcoind.name" . }}
+    chart: {{ template "bitcoind.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  groups:
+    - name: Bitcoin
+      rules:
+        {{- if .Values.prometheusRules.peers.enabled }}
+        - alert: BitcoinNodePeersLow
+          expr: bitcoin_peers{job="{{ .Release.Namespace }}/{{ .Release.Name}}", namespace="{{ .Release.Namespace}}"} < {{ .Values.prometheusRules.peers.warningTreshold }}
+          for: {{ .Values.prometheusRules.peers.for }}
+          labels:
+            severity: warning
+            namespace: {{ .Release.Namespace }}
+          annotations:
+            message: {{ "Bitcoin node {{ $labels.namespace}}/{{ $labels.pod }} has only {{ $value | humanize }} peers." | quote }}
+            description: {{ "Bitcoin node {{ $labels.namespace}}/{{ $labels.pod }} has only {{ $value | humanize }} peers." | quote }}
+        - alert: BitcoinNodePeersLow
+          expr: bitcoin_peers{job="{{ .Release.Namespace }}/{{ .Release.Name}}", namespace="{{ .Release.Namespace}}"} < {{ .Values.prometheusRules.peers.criticalTreshold }}
+          for: {{ .Values.prometheusRules.peers.for }}
+          labels:
+            severity: critical
+            namespace: {{ .Release.Namespace }}
+          annotations:
+            message: {{ "Bitcoin node {{ $labels.namespace}}/{{ $labels.pod }} has only {{ $value | humanize }} peers." | quote }}
+            description: {{ "Bitcoin node {{ $labels.namespace}}/{{ $labels.pod }} has only {{ $value | humanize }} peers." | quote }}
+        {{- end }}
+        {{- if .Values.prometheusRules.blockDiff.enabled }}
+        - record: bitcoin_blocks_reference
+          expr: |
+            {{ .Values.prometheusRules.blockDiff.referenceMetric }} + on(network,) group_left(job, pod, namespace) (0 * bitcoin_blocks{reference="false", job="{{ .Release.Namespace }}/{{ .Release.Name}}", namespace="{{ .Release.Namespace}}"})
+        - alert: BitcoinNodeBlockDiff
+          expr: |
+            {{- if .Values.prometheusRules.blockDiff.alertOnHeightAhead }}
+            abs(
+            {{- end }}
+            bitcoin_blocks_reference{job="{{ .Release.Namespace }}/{{ .Release.Name}}", namespace="{{ .Release.Namespace}}"} - on (network, pod, namespace) bitcoin_blocks{job="{{ .Release.Namespace }}/{{ .Release.Name}}", namespace="{{ .Release.Namespace}}", reference="false"}
+            {{- if .Values.prometheusRules.blockDiff.alertOnHeightAhead }}
+            )
+            {{- end }}
+            > 0
+          for: {{ .Values.prometheusRules.blockDiff.warningFor }}
+          labels:
+            severity: warning
+            namespace: {{ .Release.Namespace }}
+          annotations:
+            message: {{ "Bitcoin node {{ $labels.namespace }}/{{ $labels.pod }} has {{ $value | humanize }} blocks difference from reference." | quote }}
+            description: {{ "Bitcoin node {{ $labels.namespace }}/{{ $labels.pod }} has {{ $value | humanize }} blocks difference from reference." | quote }}
+        - alert: BitcoinNodeBlockDiff
+          expr: |
+            {{- if .Values.prometheusRules.blockDiff.alertOnHeightAhead }}
+            abs(
+            {{- end }}
+            bitcoin_blocks_reference{job="{{ .Release.Namespace }}/{{ .Release.Name}}", namespace="{{ .Release.Namespace}}"} - on (network, pod, namespace) bitcoin_blocks{job="{{ .Release.Namespace }}/{{ .Release.Name}}", namespace="{{ .Release.Namespace}}", reference="false"}
+            {{- if .Values.prometheusRules.blockDiff.alertOnHeightAhead }}
+            )
+            {{- end }}
+            > 0
+          for: {{ .Values.prometheusRules.blockDiff.criticalFor }}
+          labels:
+            severity: critical
+            namespace: {{ .Release.Namespace }}
+          annotations:
+            message: {{ "Bitcoin node {{ $labels.namespace }}/{{ $labels.pod }} has {{ $value | humanize }} blocks difference from reference." | quote }}
+            description: {{ "Bitcoin node {{ $labels.namespace }}/{{ $labels.pod }} has {{ $value | humanize }} blocks difference from reference." | quote }}
+        {{- end }}
+{{- end }}

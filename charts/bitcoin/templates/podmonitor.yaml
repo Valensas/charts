@@ -1,0 +1,23 @@
+{{- if .Values.metrics.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ include "bitcoind.fullname" . }}
+  labels:
+    app: {{ template "bitcoind.name" . }}
+    chart: {{ template "bitcoind.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  podMetricsEndpoints:
+    - interval: {{ .Values.metrics.podMonitor.interval | quote }}
+      path: {{ .Values.metrics.podMonitor.path }}
+      targetPort: {{ .Values.metrics.podMonitor.targetPort }}
+      scheme: http
+  podTargetLabels:
+    {{ .Values.metrics.podMonitor.targetLabels | toYaml | nindent 4 }}
+  selector:
+    matchLabels:
+      app: {{ template "bitcoind.name" . }}
+      release: {{ .Release.Name }}
+{{- end }}

@@ -1,0 +1,6 @@
+image:
+  repository: zquestz/bitcoin-cash-node
+  tag: 26.0.0
+
+extraPodLabels:
+  network: 'bitcoincash_{{ if.Values.testnet }}testnet{{else}}mainnet{{end}}'
