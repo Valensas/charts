@@ -1,0 +1,55 @@
+{{- range .Values.externalMonitors }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}
+  labels:
+    {{- include "monitoring-extras.labels" $ | nindent 4 }}
+    monitor: {{ .name }}
+spec:
+  externalName: unused
+  ports:
+  - name: metrics
+    port: {{ .port }}
+    protocol: TCP
+    targetPort: {{ .port }}
+  type: ExternalName
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: {{ .name }}
+  labels:
+    {{- include "monitoring-extras.labels" $ | nindent 4 }}
+    monitor: {{ .name }}
+subsets:
+- addresses:
+  {{- range .ips }}
+  - ip: {{ . | quote }}
+  {{- end }}
+  ports:
+  - name: metrics
+    port: {{ .port }}
+    protocol: TCP
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .name }}
+  labels:
+    {{- include "monitoring-extras.labels" $ | nindent 4 }}
+    monitor: {{ .name }}
+spec:
+  endpoints:
+  - interval: {{ .interval }}
+    port: metrics
+    scheme: http
+    {{- if .path }}
+    path: {{ .path | quote }}
+    {{- end }}
+  selector:
+    matchLabels:
+      {{- include "monitoring-extras.labels" $ | nindent 6 }}
+      monitor: {{ .name }}
+---
+{{- end }}

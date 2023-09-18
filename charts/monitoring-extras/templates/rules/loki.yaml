@@ -1,0 +1,20 @@
+{{- if .Values.rules.loki.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "monitoring-extras.fullname" . }}-loki
+  labels:
+    {{- include "monitoring-extras.labels" . | nindent 4 }}
+spec:
+  groups:
+    - name: Loki
+      rules:
+        - alert: LokiSamplesRejected
+          annotations:
+            description: {{ "{{ $value | humanize }} samples are getting rejected by loki." | quote }}
+            message: {{ "{{ $value | humanize }} samples are getting rejected by loki." | quote }}
+          expr: sum by (reason) (increase (loki_discarded_samples_total[2m])) > 0
+          labels:
+            severity: critical
+            namespace: {{ .Release.Namespace }}
+{{- end }}

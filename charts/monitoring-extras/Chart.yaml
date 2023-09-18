@@ -1,0 +1,5 @@
+apiVersion: v2
+name: monitoring-extras
+description: Deploys Grafana Dashboards, PrometheusRules and external scrap targets for Kube Prometheus Stack.
+type: application
+version: 0.1.0

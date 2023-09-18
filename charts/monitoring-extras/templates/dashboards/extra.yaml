@@ -1,0 +1,13 @@
+{{- range $name, $data := .Values.extraDashboards }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "monitoring-extras.fullname" $ }}-{{ $name }}
+  labels:
+    {{- include "monitoring-extras.dashboardLabels" $ | nindent 4 }}
+    grafana.valensas.com/dashboard: {{ $data.id | quote }}
+    {{- if $data.revision }}
+    grafana.valensas.com/revision: {{ $data.revision | quote }}
+    {{- end }}
+---
+{{- end }}

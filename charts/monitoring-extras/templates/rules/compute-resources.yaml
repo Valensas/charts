@@ -1,0 +1,44 @@
+{{- if .Values.rules.computeResources.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "monitoring-extras.fullname" . }}-compute-resource
+  labels:
+    {{- include "monitoring-extras.labels" . | nindent 4 }}
+spec:
+  groups:
+  - name: NodeResources
+    rules:
+      - alert: NodeCPUUsageHigh
+        annotations:
+          description: {{ "Node {{ $labels.instance }} has {{ $value | humanize }}% CPU utilization average over the last 15 minutes." | quote }}
+          summary: {{ "Node {{ $labels.instance }} has high CPU usage." | quote }}
+        expr: avg by (instance) ((1 - rate(node_cpu_seconds_total{mode="idle"}[15m]))) * 100 > 80
+        for: 1m
+        labels:
+          severity: warning
+      - alert: NodeCPUUsageHigh
+        annotations:
+          description: {{ "Node {{ $labels.instance }} has {{ $value | humanize }}% CPU utilization average over the last 15 minutes." | quote }}
+          summary: {{ "Node {{ $labels.instance }} has high CPU usage." | quote }}
+        expr: avg by (instance) ((1 - rate(node_cpu_seconds_total{mode="idle"}[15m]))) * 100 > 90
+        for: 1m
+        labels:
+          severity: critical
+      - alert: NodeMemoryUsageHigh
+        annotations:
+          description: {{ "Node {{ $labels.instance }} has {{ $value | humanize }}% memory utilization average over the last 15 minutes." | quote }}
+          summary: {{ "Node {{ $labels.instance }} has high memory usage." | quote }}
+        expr: (1 - avg_over_time(node_memory_MemAvailable_bytes[15m]) / node_memory_MemTotal_bytes) * 100 > 80
+        for: 1m
+        labels:
+          severity: warning
+      - alert: NodeMemoryUsageHigh
+        annotations:
+          description: {{ "Node {{ $labels.instance }} has {{ $value | humanize }}% memory utilization average over the last 15 minutes." | quote }}
+          summary: {{ "Node {{ $labels.instance }} has high memory usage." | quote }}
+        expr: (1 - avg_over_time(node_memory_MemAvailable_bytes[15m]) / node_memory_MemTotal_bytes) * 100 > 90
+        for: 1m
+        labels:
+          severity: critical
+{{- end }}

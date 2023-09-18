@@ -1,0 +1,46 @@
+# List of cluster-external Prometheus targets to provision. This can b
+# used to monitor applications outside of the Kubernetes cluster.
+externalMonitors: []
+
+dashboards:
+  labels:
+    grafana_dashboard: "1"
+  barman:
+    enabled: true
+  cpuQuota:
+    enabled: true
+  kafka:
+    enabled: true
+  pgbouncer:
+    enabled: true
+  postgresReplication:
+    enabled: true
+  postgres:
+    enabled: true
+  redis:
+    enabled: true
+  snmp:
+    enabled: true
+
+# Create ConfigMaps for Grafana dashboards to be
+# provisioned using [Hoenir](https://github.com/Valensas/Hoenir).
+extraDashboards: {}
+#  dashboard-name:
+#    id: 12345
+#    revision: 10
+
+# Create PrometheusRules to monitor different
+# applications and components.
+rules:
+  barman:
+    enabled: true
+  computeResources:
+    enabled: true
+  loki:
+    enabled: true
+  postgres:
+    enabled: true
+  ssl:
+    enabled: true
+  thanos:
+    enabled: true

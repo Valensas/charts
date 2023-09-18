@@ -1,0 +1,28 @@
+{{- if .Values.rules.barman.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "monitoring-extras.fullname" . }}-barman
+  labels:
+    {{- include "monitoring-extras.labels" . | nindent 4 }}
+spec:
+  groups:
+    - name: Barman
+      rules:
+        - alert: BarmanCheckDown
+          expr: barman_up == 0
+          labels:
+            severity: critical
+            namespace: {{ .Release.Namespace | quote }}
+          annotations:
+            message: {{ "Barman check {{ $labels.check }} is down for server {{ $labels.server }} on instance {{ $labels.instance }}." | quote }}
+            description: {{ "Barman check {{ $labels.check }} is down for server {{ $labels.server }} on instance {{ $labels.instance }}." | quote }}
+        - alert: BarmanNoBackupAvailable
+          expr: barman_backups_total == 0
+          labels:
+            severity: critical
+            namespace: {{ .Release.Namespace | quote }}
+          annotations:
+            message: {{ "No Barman backup available for server {{ $labels.server }} on instance {{ $labels.instance }}." | quote }}
+            description: {{ "No Barman backup available for server {{ $labels.server }} on instance {{ $labels.instance }}." | quote }}
+{{- end }}

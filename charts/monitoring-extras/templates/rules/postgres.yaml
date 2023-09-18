@@ -1,0 +1,46 @@
+{{- if .Values.rules.postgres.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "monitoring-extras.fullname" . }}-postgres
+  labels:
+    {{- include "monitoring-extras.labels" . | nindent 4 }}
+spec:
+  groups:
+    - name: Postgres
+      rules:
+        - alert: PostgresDeadlock
+          expr: sum(rate(pg_stat_database_deadlocks[5m])) by (server, datname) > 0
+          labels:
+            severity: critical
+            namespace: {{ .Release.Namespace | quote }}
+          annotations:
+            message: {{ "Postgres deadlock detected on server {{ $labels.server }} on database {{ $labels.datname }}." | quote }}
+            description: {{ "Postgres deadlock detected on server {{ $labels.server }} on database {{ $labels.datname }}." | quote }}
+        - alert: PostgresStandbyLagging
+          expr: pg_replication_lag > 10
+          for: 10m
+          labels:
+            severity: critical
+            namespace: {{ .Release.Namespace | quote }}
+          annotations:
+            message: {{ "Postgres standby node {{ $labels.server }} is lagging on replication." | quote }}
+            description: {{ "Postgres standby node {{ $labels.server }} is {{ $value | humanizeDuration }} behind on replication." | quote }}
+        - alert: PostgresConnectionsFillingUp
+          expr: sum by (server) (pg_stat_database_numbackends) / avg by (server) (pg_settings_max_connections) * 100 > 80
+          for: 5m
+          labels:
+            severity: warning
+            namespace: {{ .Release.Namespace | quote }}
+          annotations:
+            message: {{ "Postgres node {{ $labels.server }} has high number of connections." | quote }}
+            description: {{ "Postgres node {{ $labels.server }} has {{ $value | humanize }}% of connections in use." | quote }}
+        - alert: PostgresConnectionsFillingUp
+          expr: sum by (server) (pg_stat_database_numbackends) / avg by (server) (pg_settings_max_connections) * 100 > 90
+          labels:
+            severity: critical
+            namespace: {{ .Release.Namespace | quote }}
+          annotations:
+            message: {{ "Postgres node {{ $labels.server }} has high number of connections." | quote }}
+            description: {{ "Postgres node {{ $labels.server }} has {{ $value | humanize }}% of connections in use." | quote }}
+{{- end }}

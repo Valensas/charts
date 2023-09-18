@@ -1,0 +1,28 @@
+{{- if .Values.rules.ssl.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "monitoring-extras.fullname" . }}-ssl
+  labels:
+    {{- include "monitoring-extras.labels" . | nindent 4 }}
+spec:
+  groups:
+    - name: SSL
+      rules:
+        - alert: SSLCertificateExpiringSoon
+          expr: ssl_file_cert_not_after - time() < 86400 * 7
+          labels:
+            severity: warning
+            namespace: {{ .Release.Namespace | quote }}
+          annotations:
+            message: {{ "SSL certificate for domain {{ $labels.cn }} on host {{ $labels.instance }} will expire soon." | quote }}
+            description: {{ "SSL certificate for domain {{ $labels.cn }} on host {{ $labels.instance }}  is set to expire in {{ $value | humanizeDuration }}." | quote }}
+        - alert: SSLCertificateExpired
+          expr: ssl_file_cert_not_after - time() < 0
+          labels:
+            severity: critical
+            namespace: {{ .Release.Namespace | quote }}
+          annotations:
+            message: {{ "SSL certificate for domain {{ $labels.cn }} on host {{ $labels.instance }} is expired." | quote }}
+            description: {{ "SSL certificate for domain {{ $labels.cn }} on host {{ $labels.instance }} is expired" | quote }}
+{{- end }}
