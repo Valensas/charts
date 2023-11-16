@@ -21,6 +21,8 @@ dashboards:
     enabled: true
   snmp:
     enabled: true
+  nodejs:
+    enabled: true
 
 # Create ConfigMaps for Grafana dashboards to be
 # provisioned using [Hoenir](https://github.com/Valensas/Hoenir).
