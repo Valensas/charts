@@ -2,7 +2,7 @@ name: Create and publish a Docker image
 
 on:
   push:
-    tags: ['*/*']
+    tags: ["*/*"]
 
 env:
   REGISTRY: ghcr.io/valensas/charts
@@ -45,6 +45,7 @@ jobs:
       - name: Helm package
         run: |
           echo "Packaging chart ${{needs.extract-values.outputs.chart}} version ${{needs.extract-values.outputs.version}}"
+          helm dep build "charts/${{needs.extract-values.outputs.chart}}"
           helm package "charts/${{needs.extract-values.outputs.chart}}"
 
       - name: Helm push
