@@ -1,0 +1,110 @@
+{{ $podLabels := include "speaky.podLabels" . | fromYaml }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "speaky.fullname" . }}
+  labels:
+    {{- include "speaky.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "speaky.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- include "speaky.podAnnotations" . | nindent 8 }}
+      labels:
+        {{ $podLabels | toYaml | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "speaky.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.container.httpPort }}
+              protocol: TCP
+            - name: http-management
+              containerPort: {{ .Values.container.managementPort }}
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ include "speaky.fullname" . }}
+            {{- if and .Values.sms.enabled (eq .Values.sms.method "phone") }}
+            - secretRef:
+                name: {{ include "speaky.fullname" . }}-sms
+            {{- end }}
+            {{- if .Values.email.enabled }}
+            - configMapRef:
+                name: {{ include "speaky.fullname" . }}-smtp
+            - secretRef:
+                name: {{ include "speaky.fullname" . }}-smtp
+            {{- end }}
+            {{ with .Values.container.envFrom }}
+            {{ . | toYaml | nindent 12 }}
+            {{- end }}
+          env:
+            {{- if .Values.firebase.enabled }}
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /firebase/service-account.json
+            {{- end }}
+          {{- with .Values.livenessProbe }}
+          livenessProbe:
+            {{ . | toYaml | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+            {{ . | toYaml | nindent 12 }}
+          {{- end }}
+          {{- with .Values.startupProbe }}
+          startupProbe:
+            {{ . | toYaml | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          {{- if .Values.firebase.enabled }}
+            - name: firebase-secret
+              readOnly: true
+              mountPath: /firebase
+          {{- end }}
+          {{- with .Values.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        {{- if .Values.firebase.enabled }}
+        - name: firebase-secret
+          secret:
+            secretName: {{ include "speaky.fullname" . }}-firebase
+        {{- end }}
+        {{- with .Values.volumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.affinity }}
+      affinity: {{- include "common.tplvalues.render" ( dict "value" .Values.affinity "context" $) | nindent 8 }}
+      {{- else }}
+      affinity:
+        podAffinity: {{- include "common.affinities.pods" (dict "type" .Values.podAffinityPreset "customLabels" $podLabels "context" $) | nindent 10 }}
+        podAntiAffinity: {{- include "common.affinities.pods" (dict "type" .Values.podAntiAffinityPreset "customLabels" $podLabels "context" $) | nindent 10 }}
+        nodeAffinity: {{- include "common.affinities.nodes" (dict "type" .Values.nodeAffinityPreset.type "key" .Values.nodeAffinityPreset.key "values" .Values.nodeAffinityPreset.values) | nindent 10 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

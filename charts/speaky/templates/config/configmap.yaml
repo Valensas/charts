@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "speaky.fullname" . }}
+  labels:
+    {{- include "speaky.labels" . | nindent 4 }}
+data:
+  SERVER_PORT: {{ .Values.container.httpPort | quote }}
+  MANAGEMENT_SERVER_PORT: {{ .Values.container.managementPort | quote }}
+  EMAIL_ENABLED: {{ .Values.email.enabled | quote }}
+  {{- if .Values.email.enabled }}
+  EMAIL_SENDER: {{ .Values.email.sender | quote }}
+  {{- end }}
+  SMS_ENABLED: {{ .Values.sms.enabled | quote }}
+  SMS_METHOD: {{ .Values.sms.method | quote }}
+  FIREBASE_ENABLED: {{ .Values.firebase.enabled | quote }}
+  {{- if .Values.firebase.enabled }}
+  FIREBASE_PROJECTID: {{ .Values.firebase.projectId | required "firebase.projectId is required when Firebase is enabled" }}
+  {{- end }}

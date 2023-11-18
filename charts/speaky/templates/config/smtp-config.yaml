@@ -1,0 +1,14 @@
+{{- if .Values.email.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "speaky.fullname" . }}-smtp
+  labels:
+    {{- include "speaky.labels" . | nindent 4 }}
+data:
+  SPRING_MAIL_HOST: {{ .Values.email.host | required "email.host is required when email is enabled" | quote }}
+  SPRING_MAIL_PORT: {{ .Values.email.port | required "email.port is required when email is enabled" | quote }}
+  {{- range $key, $value := .Values.email.springMailExtraConfig }}
+  SPRING_MAIL_{{ $key | replace "." "_" | replace "-" "" | upper }}: {{ $value | quote }}
+  {{- end -}}
+{{- end }}

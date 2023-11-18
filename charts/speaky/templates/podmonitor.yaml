@@ -1,0 +1,19 @@
+{{- if .Values.podMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ include "speaky.fullname" . }}
+  labels:
+    {{- include "speaky.labels" . | nindent 4 }}
+spec:
+  podMetricsEndpoints:
+    - path: /actuator/prometheus
+      port: http-management
+      scheme: http
+      {{- with .Values.podMonitor.interval -}}
+      interval: {{ . | quote }}
+      {{- end }}
+  selector:
+    matchLabels:
+      {{- include "speaky.selectorLabels" . | nindent 6 }}
+{{- end }}
