@@ -1,0 +1,13 @@
+{{- if .Values.dashboards.components.enabled }}
+{{ $name := printf "%s-components-dashboard" .Release.Namespace  }}
+{{ $uid :=  $name | sha1sum  }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{- include "monitoring-extras.dashboardLabels" . | nindent 4 }}
+  name: {{ $name | quote }}
+data:
+  {{ $name }}.json: |
+    {{- $.Files.Get "dashboards/components-dashboard.json" | replace "$uid" $uid | nindent 4 }}
+{{- end }}
