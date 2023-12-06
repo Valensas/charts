@@ -1,0 +1,392 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 135,
+    "iteration": 1674820418392,
+    "links": [],
+    "panels": [
+      {
+        "collapsed": false,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 14,
+        "panels": [],
+        "title": "Details",
+        "type": "row"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": null,
+              "filterable": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 25,
+          "w": 24,
+          "x": 0,
+          "y": 1
+        },
+        "id": 8,
+        "options": {
+          "showHeader": true
+        },
+        "pluginVersion": "7.5.11",
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "max by (application, component, version) (valensas_application{application=~\"$application\", component=~\"$component\", namespace=~\"$namespace\"})",
+            "format": "table",
+            "instant": true,
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "title": "Application Versions",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time": true,
+                "Value": true
+              },
+              "indexByName": {},
+              "renameByName": {}
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "collapsed": false,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 26
+        },
+        "id": 11,
+        "panels": [],
+        "repeat": null,
+        "type": "row"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 0,
+          "y": 27
+        },
+        "id": 2,
+        "maxPerRow": 4,
+        "options": {
+          "displayLabels": [
+            "name"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "values": [
+              "percent",
+              "value"
+            ]
+          },
+          "pieType": "pie",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {}
+        },
+        "pluginVersion": "7.5.11",
+        "repeat": "component",
+        "repeatDirection": "h",
+        "scopedVars": {
+          "component": {
+            "selected": false,
+            "text": "java",
+            "value": "java"
+          }
+        },
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "count by (component, version) (max by (application, component, version) (valensas_application{application=~\"$application\", component=~\"$component\", namespace=~\"$namespace\"}))",
+            "interval": "",
+            "legendFormat": "{{version}}",
+            "refId": "A"
+          }
+        ],
+        "title": "$component versions",
+        "type": "piechart"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 12,
+          "y": 27
+        },
+        "id": 15,
+        "maxPerRow": 4,
+        "options": {
+          "displayLabels": [
+            "name"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "values": [
+              "percent",
+              "value"
+            ]
+          },
+          "pieType": "pie",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {}
+        },
+        "pluginVersion": "7.5.11",
+        "repeatDirection": "h",
+        "repeatIteration": 1674820418392,
+        "repeatPanelId": 2,
+        "scopedVars": {
+          "component": {
+            "selected": false,
+            "text": "springboot",
+            "value": "springboot"
+          }
+        },
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "count by (component, version) (max by (application, component, version) (valensas_application{application=~\"$application\", component=~\"$component\", namespace=~\"$namespace\"}))",
+            "interval": "",
+            "legendFormat": "{{version}}",
+            "refId": "A"
+          }
+        ],
+        "title": "$component versions",
+        "type": "piechart"
+      }
+    ],
+    "refresh": "",
+    "schemaVersion": 27,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": null,
+          "definition": "label_values(valensas_application, namespace)",
+          "description": null,
+          "error": null,
+          "hide": 0,
+          "includeAll": true,
+          "label": "namespace",
+          "multi": true,
+          "name": "namespace",
+          "options": [],
+          "query": {
+            "query": "label_values(valensas_application, namespace)",
+            "refId": "StandardVariableQuery"
+          },
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": null,
+          "definition": "label_values(valensas_application{namespace=\"$namespace\"}, component)",
+          "description": null,
+          "error": null,
+          "hide": 0,
+          "includeAll": true,
+          "label": "component",
+          "multi": true,
+          "name": "component",
+          "options": [],
+          "query": {
+            "query": "label_values(valensas_application{namespace=\"$namespace\"}, component)",
+            "refId": "StandardVariableQuery"
+          },
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": null,
+          "definition": "label_values(valensas_application{namespace=\"$namespace\"}, application)",
+          "description": null,
+          "error": null,
+          "hide": 0,
+          "includeAll": true,
+          "label": "application",
+          "multi": true,
+          "name": "application",
+          "options": [],
+          "query": {
+            "query": "label_values(valensas_application{namespace=\"$namespace\"}, application)",
+            "refId": "StandardVariableQuery"
+          },
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        }
+      ]
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Component Versions",
+    "uid": "$uid",
+    "version": 22
+  }
