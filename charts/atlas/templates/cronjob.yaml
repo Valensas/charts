@@ -1,0 +1,52 @@
+{{ $podLabels := include "atlas.podLabels" . | fromYaml }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "atlas.fullname" . }}-update-database
+  labels:
+    {{- include "atlas.labels" $ | nindent 4 }}
+spec:
+  concurrencyPolicy: {{ .Values.updateCronJob.concurrencyPolicy }}
+  successfulJobsHistoryLimit: {{ .Values.updateCronJob.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.updateCronJob.failedJobsHistoryLimit }}
+  startingDeadlineSeconds: {{ .Values.updateCronJob.startingDeadlineSeconds }}
+  schedule: {{ .Values.updateCronJob.schedule | quote }}
+  jobTemplate:
+    spec:
+      backoffLimit: {{ .Values.updateCronJob.backoffLimit }}
+      ttlSecondsAfterFinished: {{ .Values.updateCronJob.ttlSecondsAfterFinished }}
+      template:
+        metadata:
+          annotations:
+            {{- include "atlas.podAnnotations" . | nindent 12 }}
+          labels:
+            {{- include "atlas.podLabels" . | nindent 12 }}
+            job: update-database
+        spec:
+          restartPolicy: {{ .Values.updateCronJob.restartPolicy }}
+          {{- if $.Values.serviceAccount.enabled }}
+          serviceAccountName: {{ $.Chart.Name | quote }}
+          {{- end }}
+          {{- if .Values.affinity }}
+          affinity: {{- include "common.tplvalues.render" ( dict "value" .Values.affinity "context" $) | nindent 12 }}
+          {{- else }}
+          affinity:
+            podAffinity: {{- include "common.affinities.pods" (dict "type" .Values.podAffinityPreset "customLabels" $podLabels "context" $) | nindent 14 }}
+            podAntiAffinity: {{- include "common.affinities.pods" (dict "type" .Values.podAntiAffinityPreset "customLabels" $podLabels "context" $) | nindent 14 }}
+            nodeAffinity: {{- include "common.affinities.nodes" (dict "type" .Values.nodeAffinityPreset.type "key" .Values.nodeAffinityPreset.key "values" .Values.nodeAffinityPreset.values) | nindent 14 }}
+          {{- end }}
+          containers:
+          - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            name: {{ .Chart.Name }}
+            args:
+              - update-ip2location
+            resources:
+              {{- .Values.updateCronJob.resources | toYaml | nindent 14 }}
+            envFrom:
+             - secretRef:
+                  name: {{ include "atlas.fullname" . }}
+            env:
+              - name: SPRING_FLYWAY_ENABLED
+                value: 'false'
+---

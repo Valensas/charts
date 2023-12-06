@@ -1,0 +1,13 @@
+apiVersion: v2
+name: atlas
+description: A backend for ip2location.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+
+dependencies:
+  - name: common
+    repository: oci://registry-1.docker.io/bitnamicharts
+    tags:
+      - bitnami-common
+    version: 2.x.x
