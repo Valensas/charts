@@ -7,6 +7,8 @@ dashboards:
     grafana_dashboard: "1"
   barman:
     enabled: true
+  components:
+    enabled: true
   cpuQuota:
     enabled: true
   kafka:
