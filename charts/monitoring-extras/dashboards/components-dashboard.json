@@ -320,7 +320,7 @@
             ]
           },
           "datasource": null,
-          "definition": "label_values(valensas_application{namespace=\"$namespace\"}, component)",
+          "definition": "label_values(valensas_application{namespace=~\"$namespace\"}, component)",
           "description": null,
           "error": null,
           "hide": 0,
@@ -330,7 +330,7 @@
           "name": "component",
           "options": [],
           "query": {
-            "query": "label_values(valensas_application{namespace=\"$namespace\"}, component)",
+            "query": "label_values(valensas_application{namespace=~\"$namespace\"}, component)",
             "refId": "StandardVariableQuery"
           },
           "refresh": 2,
@@ -355,7 +355,7 @@
             ]
           },
           "datasource": null,
-          "definition": "label_values(valensas_application{namespace=\"$namespace\"}, application)",
+          "definition": "label_values(valensas_application{namespace=~\"$namespace\"}, application)",
           "description": null,
           "error": null,
           "hide": 0,
@@ -365,7 +365,7 @@
           "name": "application",
           "options": [],
           "query": {
-            "query": "label_values(valensas_application{namespace=\"$namespace\"}, application)",
+            "query": "label_values(valensas_application{namespace=~\"$namespace\"}, application)",
             "refId": "StandardVariableQuery"
           },
           "refresh": 2,
