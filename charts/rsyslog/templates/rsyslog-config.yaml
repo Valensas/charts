@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "rsyslog.fullname" . }}
+  labels:
+    {{- include "rsyslog.labels" . | nindent 4 }}
+data:
+  rsyslog.conf: |
+    {{- .Values.config | nindent 4 }}
