@@ -89,3 +89,19 @@ args:
 
 
 config: ''
+
+probes:
+  livenessProbe:
+    exec:
+      command:
+      - lsof
+      - -i:{{ ($.Values.service.ports | first).targetPort }}
+    initialDelaySeconds: 5
+    periodSeconds: 5
+  readinessProbe:
+    exec:
+      command:
+      - lsof
+      - -i:{{ ($.Values.service.ports | first).targetPort }}
+    initialDelaySeconds: 5
+    periodSeconds: 5

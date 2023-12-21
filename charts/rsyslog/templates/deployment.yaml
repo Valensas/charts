@@ -42,17 +42,9 @@ spec:
               protocol: {{ .protocol }}
             {{- end }}
           livenessProbe:
-            exec:
-              command:
-              - sh
-              - -c
-              - lsof -i:514
+            {{- tpl ($.Values.probes.livenessProbe | toYaml) $ | nindent 12 }}
           readinessProbe:
-            exec:
-              command:
-              - sh
-              - -c
-              - lsof -i:514
+            {{- tpl ($.Values.probes.readinessProbe | toYaml) $ | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
