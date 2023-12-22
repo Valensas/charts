@@ -1,0 +1,89 @@
+# Default values for rsyslog.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: valensas/rsyslog
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+#  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  ports:
+    - port: 514
+      targetPort: 514
+      protocol: UDP
+      name: udp-syslog
+
+resources: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+args: []
+
+
+config: ''
+
+probes: {}
+#  livenessProbe:
+#    exec:
+#      command:
+#      - lsof
+#      - -i:{{ ($.Values.service.ports | first).targetPort }}
+#    initialDelaySeconds: 5
+#    periodSeconds: 5
+#  readinessProbe:
+#    exec:
+#      command:
+#      - lsof
+#      - -i:{{ ($.Values.service.ports | first).targetPort }}
+#    initialDelaySeconds: 5
+#    periodSeconds: 5

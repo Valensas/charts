@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "rsyslog.fullname" . }}
+  labels:
+    {{- include "rsyslog.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  {{- if .Values.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.service.loadBalancerIP }}
+  {{- end }}
+  ports:
+    {{- .Values.service.ports | toYaml | nindent 4 }}
+  selector:
+    {{- include "rsyslog.selectorLabels" . | nindent 4 }}
