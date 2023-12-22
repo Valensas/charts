@@ -34,7 +34,14 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          args: {{ .Values.args | toJson }}
+          args:
+          {{- if .Values.config }}
+            - '-f'
+            - /etc/rsyslog/rsyslog.conf
+          {{- end }}
+          {{- with .Values.args }}
+          {{ . | toYaml | nindent 10 }}
+          {{- end }}
           ports:
             {{- range .Values.service.ports }}
             - name: {{ .name }}
@@ -48,15 +55,19 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
+          {{- if .Values.config }}
             - name: config
               mountPath: /etc/rsyslog
+          {{- end }}
           {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
       volumes:
+      {{- if .Values.config }}
         - name: config
           configMap:
             name: {{ include "rsyslog.fullname" . }}
+      {{- end }}
       {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
