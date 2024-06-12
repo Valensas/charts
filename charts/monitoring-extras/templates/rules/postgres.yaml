@@ -18,7 +18,7 @@ spec:
             message: {{ "Postgres deadlock detected on server {{ $labels.server }} on database {{ $labels.datname }}." | quote }}
             description: {{ "Postgres deadlock detected on server {{ $labels.server }} on database {{ $labels.datname }}." | quote }}
         - alert: PostgresStandbyLagging
-          expr: pg_replication_lag > 10
+          expr: pg_replication_lag_seconds > 10
           for: 10m
           labels:
             severity: critical

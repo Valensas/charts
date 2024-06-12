@@ -68,7 +68,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pg_replication_lag{server=~\"$server\"}",
+          "expr": "pg_replication_lag_seconds{server=~\"$server\"}",
           "interval": "",
           "legendFormat": "{{server}}",
           "refId": "A"
