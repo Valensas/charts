@@ -1,0 +1,24 @@
+{{- if .Values.podMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ .Values.podMonitor.name | default (include "strimzi-cluster.clusterName" $) }}
+  labels:
+    {{- include "strimzi-cluster.labels" $ | nindent 4 }}
+spec:
+  podMetricsEndpoints:
+    - interval: {{ .Values.podMonitor.interval | quote }}
+      path: /metrics
+      targetPort: tcp-prometheus
+      scheme: http
+  selector:
+    matchExpressions:
+      - key: strimzi.io/cluster
+        operator: In
+        values: [{{ include "strimzi-cluster.clusterName" $ }}]
+      - key: strimzi.io/component-type
+        operator: In
+        values:
+          - kafka
+          - kafka-exporter
+{{- end }}

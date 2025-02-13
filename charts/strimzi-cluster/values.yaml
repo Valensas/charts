@@ -1,0 +1,69 @@
+cluster:
+  #  name:
+  #  labels: {}
+  #  annotations: {}
+  listeners:
+    - name: plain
+      type: internal
+      port: 9092
+      tls: false
+  # config:
+  #   auto.create.topics.enable: false
+  #   delete.topic.enable: false
+  #   default.replication.factor: 3
+  entityOperator:
+    topicOperator: {}
+  kafkaExporter: {}
+  jmxMetrics:
+    enabled: true
+  pod:
+    annotations: {}
+    labels: {}
+
+podMonitor:
+  enabled: false
+  #   name:
+  interval: 30s
+
+pools:
+  - name: default
+    labels: {}
+    annotations: {}
+    spec:
+      replicas: 1
+      roles:
+        - controller
+        - broker
+      storage:
+        type: ephemeral
+
+podAffinityPreset: ""
+podAntiAffinityPreset: soft
+nodeAffinityPreset:
+  type: ""
+  key: ""
+  values: []
+affinity: {}
+
+# Common configuration for topics
+# topicTypes:
+#   default:
+#     retention: 300000
+#     replicationFactor: 2
+#     partitions: 10
+
+# List of topics to create
+topics:
+  []
+  # Fetch all configuration from the type
+  # - name: topic-1
+  #   type: default
+  # Specify per-topic configuration
+  # - name: topic-2
+  #   partitions: 10
+  #   replicationFactor: 10
+  #   retention: 10000
+  # Specify configuration from the type, overriding partitions
+  # - name: topic-3
+  #   partitions: 10
+  #   type: default
