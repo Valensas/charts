@@ -48,16 +48,16 @@ spec:
           annotations:
             {{- . | toYaml | nindent 12 }}
           {{- end }}
-          {{- if $.Values.affinity }}
-          affinity:
+        {{- if $.Values.affinity }}
+        affinity:
             {{- include "common.tplvalues.render" ( dict "value" $.Values.affinity "context" $) | nindent 12 }}
-          {{- else }}
-          affinity:
-            {{- $podLabels := dict "strimzi.io/cluster" (include "strimzi-cluster.clusterName" $) "strimzi.io/component-type" "kafka" }}
-            podAffinity:
-              {{- include "common.affinities.pods" (dict "type" $.Values.podAffinityPreset "extraMatchLabels" $podLabels "context" $) | nindent 14 }}
-            podAntiAffinity:
-              {{- include "common.affinities.pods" (dict "type" $.Values.podAntiAffinityPreset "extraMatchLabels" $podLabels "context" $) | nindent 14 }}
-            nodeAffinity:
-              {{- include "common.affinities.nodes" (dict "type" $.Values.nodeAffinityPreset.type "key" $.Values.nodeAffinityPreset.key "values" $.Values.nodeAffinityPreset.values) | nindent 14 }}
+        {{- else }}
+        affinity:
+          {{- $podLabels := dict "strimzi.io/cluster" (include "strimzi-cluster.clusterName" $) "strimzi.io/component-type" "kafka" }}
+          podAffinity:
+            {{- include "common.affinities.pods" (dict "type" $.Values.podAffinityPreset "extraMatchLabels" $podLabels "context" $) | nindent 12 }}
+          podAntiAffinity:
+            {{- include "common.affinities.pods" (dict "type" $.Values.podAntiAffinityPreset "extraMatchLabels" $podLabels "context" $) | nindent 12 }}
+          nodeAffinity:
+            {{- include "common.affinities.nodes" (dict "type" $.Values.nodeAffinityPreset.type "key" $.Values.nodeAffinityPreset.key "values" $.Values.nodeAffinityPreset.values) | nindent 14 }}
           {{- end }}
