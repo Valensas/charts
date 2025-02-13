@@ -1,0 +1,18 @@
+{{- range $pool := .Values.pools -}}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: {{ $pool.name | required "pool name required" | quote }}
+  labels:
+    {{- with $pool.labels }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
+    {{- include "strimzi-cluster.labels" $ | nindent 4 }}
+    strimzi.io/cluster: {{ include "strimzi-cluster.clusterName" $ }}
+  {{- with $pool.annotations }}
+  annotations:
+    {{- . | toYaml | nindent 4 }}
+  {{- end }}
+spec:
+  {{- $pool.spec | toYaml | nindent 2 }}
+{{- end }}

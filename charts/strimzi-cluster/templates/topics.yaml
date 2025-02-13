@@ -1,0 +1,17 @@
+{{- range $topic := $.Values.topics }}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: {{ trimAll "_" $topic.name | replace "." "-" | replace "_" "-" }}
+  labels:
+    {{- include "strimzi-cluster.labels" $ | nindent 4 }}
+    strimzi.io/cluster: {{ include "strimzi-cluster.clusterName" $ }}
+spec:
+  {{- $type := get $.Values.topicTypes $topic.type  }}
+  topicName: {{ $topic.name | required "topic name is required" | quote }}
+  partitions: {{ $topic.partitions | default $type.partitions | required (printf "Missing partitions for topic %s and type %s" $topic.name $topic.type) }}
+  replicas: {{ $topic.replicationFactor | default $type.replicationFactor }}
+  config:
+    retention.ms: {{ $topic.retention | default $type.retention }}
+---
+{{- end }}

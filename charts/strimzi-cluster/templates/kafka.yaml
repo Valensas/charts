@@ -1,0 +1,63 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: {{ include "strimzi-cluster.clusterName" . }}
+  annotations:
+    {{- with .Values.cluster.annotations -}}
+    {{ . | toYaml | nindent 4 }}
+    {{- end }}
+    {{- include "strimzi-cluster.labels" . | nindent 4 }}
+    strimzi.io/kraft: enabled
+    strimzi.io/node-pools: enabled
+  {{- with .Values.cluster.labels }}
+  labels:
+    {{ . | toYaml | nindent 4 }}
+  {{- end }}
+spec:
+  {{ if hasKey .Values.cluster "entityOperator" }}
+  entityOperator:
+    {{- .Values.cluster.entityOperator | toYaml | nindent 4 }}
+  {{- end }}
+  {{ if hasKey .Values.cluster "kafkaExporter" }}
+  kafkaExporter:
+    {{- .Values.cluster.kafkaExporter | toYaml | nindent 4 }}
+  {{- end }}
+  kafka:
+    {{- if .Values.cluster.jmxMetrics.enabled }}
+    metricsConfig:
+      type: jmxPrometheusExporter
+      valueFrom:
+        configMapKeyRef:
+          name: {{ include "strimzi-cluster.fullname" $ }}-jmx-metrics
+          key: kafka-metrics-config.yml
+    {{- end }}
+    listeners:
+      {{- .Values.cluster.listeners | toYaml | nindent 6 }}
+    {{- with $.Values.cluster.config }}
+    config:
+      {{- $.Values.cluster.config | toYaml | nindent 6 }}
+    {{- end }}
+    template:
+      pod:
+        metadata:
+          {{- with .Values.cluster.pod.labels }}
+          labels:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}
+          {{- with .Values.cluster.pod.annotations }}
+          annotations:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}
+          {{- if $.Values.affinity }}
+          affinity:
+            {{- include "common.tplvalues.render" ( dict "value" $.Values.affinity "context" $) | nindent 12 }}
+          {{- else }}
+          affinity:
+            {{- $podLabels := dict "strimzi.io/cluster" (include "strimzi-cluster.clusterName" $) "strimzi.io/component-type" "kafka" }}
+            podAffinity:
+              {{- include "common.affinities.pods" (dict "type" $.Values.podAffinityPreset "extraMatchLabels" $podLabels "context" $) | nindent 14 }}
+            podAntiAffinity:
+              {{- include "common.affinities.pods" (dict "type" $.Values.podAntiAffinityPreset "extraMatchLabels" $podLabels "context" $) | nindent 14 }}
+            nodeAffinity:
+              {{- include "common.affinities.nodes" (dict "type" $.Values.nodeAffinityPreset.type "key" $.Values.nodeAffinityPreset.key "values" $.Values.nodeAffinityPreset.values) | nindent 14 }}
+          {{- end }}

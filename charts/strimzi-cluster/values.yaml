@@ -1,0 +1,95 @@
+replicas: 3
+
+cluster:
+  #  name:
+  #  labels: {}
+  #  annotations: {}
+  listeners:
+    - name: plain
+      type: internal
+      port: 9092
+      tls: false
+  # config:
+  #   auto.create.topics.enable: false
+  #   delete.topic.enable: false
+  #   default.replication.factor: 3
+  entityOperator:
+    topicOperator: {}
+  kafkaExporter: {}
+  jmxMetrics:
+    enabled: true
+  pod:
+    annotations: {}
+    labels: {}
+
+podMonitor:
+  enabled: false
+  #   name:
+  interval: 30s
+
+pools:
+  - name: default
+    labels: {}
+    annotations: {}
+    spec:
+      replicas: 1
+      roles:
+        - controller
+        - broker
+      storage:
+        type: ephemeral
+
+## @param podAffinityPreset Pod affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
+## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
+##
+podAffinityPreset: ""
+## @param podAntiAffinityPreset Pod anti-affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
+## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
+##
+podAntiAffinityPreset: soft
+## Node affinity preset
+## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity
+##
+nodeAffinityPreset:
+  ## @param nodeAffinityPreset.type Node affinity preset type. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
+  ##
+  type: ""
+  ## @param nodeAffinityPreset.key Node label key to match. Ignored if `affinity` is set
+  ##
+  key: ""
+  ## @param nodeAffinityPreset.values Node label values to match. Ignored if `affinity` is set
+  ## E.g.
+  ## values:
+  ##   - e2e-az1
+  ##   - e2e-az2
+  ##
+  values: []
+
+## @param affinity Affinity for ClickHouse pods assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+## NOTE: `podAffinityPreset`, `podAntiAffinityPreset`, and `nodeAffinityPreset` will be ignored when it's set
+##
+affinity: {}
+
+# Common configuration for topics
+# topicTypes:
+#   default:
+#     retention: 300000
+#     replicationFactor: 2
+#     partitions: 10
+
+# List of topics to create
+topics:
+  []
+  # Fetch all configuration from the type
+  # - name: topic-1
+  #   type: default
+  # Specify per-topic configuration
+  # - name: topic-2
+  #   partitions: 10
+  #   replicationFactor: 10
+  #   retention: 10000
+  # Specify configuration from the type, overriding partitions
+  # - name: topic-3
+  #   partitions: 10
+  #   type: default
