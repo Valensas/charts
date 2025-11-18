@@ -34,7 +34,10 @@
         "type": "row"
       },
       {
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -114,7 +117,10 @@
         "type": "row"
       },
       {
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -190,7 +196,10 @@
         "type": "piechart"
       },
       {
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -274,6 +283,16 @@
     "templating": {
       "list": [
         {
+          "allowCustomValue": false,
+          "label": "Datasource",
+          "name": "datasource",
+          "options": [],
+          "query": "prometheus",
+          "refresh": 1,
+          "regex": "",
+          "type": "datasource"
+        },
+        {
           "allValue": ".*",
           "current": {
             "selected": false,
@@ -284,7 +303,10 @@
               "$__all"
             ]
           },
-          "datasource": null,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
           "definition": "label_values(valensas_application, namespace)",
           "description": null,
           "error": null,
@@ -319,7 +341,10 @@
               "$__all"
             ]
           },
-          "datasource": null,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
           "definition": "label_values(valensas_application{namespace=~\"$namespace\"}, component)",
           "description": null,
           "error": null,
@@ -354,7 +379,10 @@
               "$__all"
             ]
           },
-          "datasource": null,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
           "definition": "label_values(valensas_application{namespace=~\"$namespace\"}, application)",
           "description": null,
           "error": null,

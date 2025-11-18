@@ -1,6 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/helm,visualstudiocode,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=helm,visualstudiocode,macos
-
+.idea
 ### Helm ###
 # Chart dependencies
 **/charts/*.tgz

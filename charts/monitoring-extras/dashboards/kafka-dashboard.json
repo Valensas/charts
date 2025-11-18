@@ -43,7 +43,10 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -132,7 +135,10 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -221,7 +227,10 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -310,7 +319,10 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -399,7 +411,10 @@
         "#F2495C",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -488,7 +503,10 @@
         "#F2495C",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "description": "Number of partitions which are at their minimum in sync replica count (| ISR | == | min.insync.replicas |).",
       "fieldConfig": {
         "defaults": {},
@@ -578,7 +596,10 @@
         "#F2495C",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "description": "Number of partitions which are under their minimum in sync replica count (| ISR | < | min.insync.replicas |).",
       "fieldConfig": {
         "defaults": {},
@@ -668,7 +689,10 @@
         "#F2495C",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -753,7 +777,10 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -858,7 +885,10 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -960,7 +990,10 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -1060,7 +1093,10 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -1161,7 +1197,10 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -1264,7 +1303,10 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -1365,7 +1407,10 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -1462,7 +1507,10 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -1545,7 +1593,10 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -1628,7 +1679,10 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -1721,13 +1775,26 @@
   "templating": {
     "list": [
       {
+        "allowCustomValue": false,
+        "label": "Datasource",
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {
           "selected": true,
           "text": "bitronit-dev",
           "value": "bitronit-dev"
         },
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
         "definition": "label_values(kafka_partition_latest_offset, namespace)",
         "description": "",
         "error": null,
@@ -1758,7 +1825,10 @@
           "text": "bitronit-kafka",
           "value": "bitronit-kafka"
         },
-        "datasource": null,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
         "definition": "label_values(kafka_partition_latest_offset{namespace=~\"$namespace\"}, cluster_name)",
         "description": "",
         "error": {
@@ -1797,7 +1867,10 @@
             "$__all"
           ]
         },
-        "datasource": "Prometheus",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
         "definition": "label_values(kafka_consumergroup_current_offset{job=\"$namespace/$cluster\"}, consumergroup)",
         "description": null,
         "error": {
@@ -1836,7 +1909,10 @@
             "$__all"
           ]
         },
-        "datasource": "Prometheus",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
         "definition": "label_values(kafka_topic_partition_current_offset{job=\"$namespace/$cluster\", topic!~\"__.*\"}, topic)",
         "description": null,
         "error": null,
