@@ -1,4 +1,4 @@
-{{- if .Values.dashboards.nodejs.enabled }}
+{{- if and .Values.dashboards.enabled .Values.dashboards.nodejs.enabled }}
 {{ $name := printf "%s-nodejs-dashboard" .Release.Namespace  }}
 {{ $uid :=  $name | sha1sum  }}
 apiVersion: v1

@@ -1,4 +1,4 @@
-{{- if .Values.rules.ssl.enabled }}
+{{- if and .Values.rules.enabled .Values.rules.ssl.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:

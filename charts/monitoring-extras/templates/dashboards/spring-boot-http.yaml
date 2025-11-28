@@ -1,4 +1,4 @@
-{{- if .Values.dashboards.springBootHttp.enabled }}
+{{- if and .Values.dashboards.enabled .Values.dashboards.springBootHttp.enabled }}
 {{ $name := printf "%s-spring-boot-http-dashboard" .Release.Namespace  }}
 {{ $uid :=  $name | sha1sum  }}
 apiVersion: v1

@@ -1,4 +1,4 @@
-{{- if .Values.rules.barman.enabled }}
+{{- if and .Values.rules.enabled .Values.rules.barman.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:

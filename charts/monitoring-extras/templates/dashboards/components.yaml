@@ -1,4 +1,4 @@
-{{- if .Values.dashboards.components.enabled }}
+{{- if and .Values.dashboards.enabled .Values.dashboards.components.enabled }}
 {{ $name := printf "%s-components-dashboard" .Release.Namespace  }}
 {{ $uid :=  $name | sha1sum  }}
 apiVersion: v1

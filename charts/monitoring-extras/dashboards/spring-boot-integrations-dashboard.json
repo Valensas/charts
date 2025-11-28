@@ -71,9 +71,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(integration_request_seconds_count{namespace=~\"$name_space_variable\", hostname=~\"$host\"}[$__rate_interval])) by (hostname, path)",
+          "expr": "sum(rate(integration_request_seconds_count{namespace=~\"$namespace\", client_name=~\"$client_name\"}[$__rate_interval])) by (client_name, uri)",
           "interval": "",
-          "legendFormat": "{{hostname}}{{path}}",
+          "legendFormat": "{{client_name}}{{uri}}",
           "refId": "A"
         }
       ],
@@ -173,11 +173,11 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum by (hostname, path) (rate(integration_request_seconds_sum{namespace=~\"$name_space_variable\", hostname=~\"$host\"}[$__rate_interval])) / sum by (hostname, path) (rate(integration_request_seconds_count{namespace=~\"$name_space_variable\", hostname=~\"$host\"}[$__rate_interval]))",
+          "expr": "sum by (client_name, uri) (rate(integration_request_seconds_sum{namespace=~\"$namespace\", client_name=~\"$client_name\"}[$__rate_interval])) / sum by (client_name, uri) (rate(integration_request_seconds_count{namespace=~\"$namespace\", client_name=~\"$client_name\"}[$__rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{hostname}}{{path}}",
+          "legendFormat": "{{client_name}}{{uri}}",
           "refId": "A"
         }
       ],
@@ -277,11 +277,11 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "histogram_quantile(1, sum by (hostname, path, method, le) (rate(integration_request_seconds_bucket{namespace=~\"$name_space_variable\", hostname=~\"$host\"}[2m])))",
+          "expr": "max by (client_name, uri) (integration_request_seconds_max{namespace=~\"$namespace\", client_name=~\"$client_name\"})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{method}} - {{hostname}}{{path}}",
+          "legendFormat": "{{client_name}}{{uri}}",
           "refId": "A"
         }
       ],
@@ -380,9 +380,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum by (hostname, path, status) (rate(integration_request_seconds_count{namespace=~\"$name_space_variable\", hostname=~\"$host\", outcome!=\"SUCCESS\"}[$__rate_interval]))",
+          "expr": "sum by (client_name, uri, status) (rate(integration_request_seconds_count{namespace=~\"$namespace\", client_name=~\"$client_name\", outcome!=\"SUCCESS\"}[$__rate_interval]))",
           "interval": "",
-          "legendFormat": "{{status}} - {{hostname}}{{path}}",
+          "legendFormat": "{{status}} - {{client_name}}{{uri}}",
           "refId": "A"
         }
       ],
@@ -447,15 +447,18 @@
         "type": "datasource"
       },
       {
-        "name": "name_space_variable",
+        "name": "namespace",
         "label": "Namespace",
         "type": "query",
         "datasource": {
           "type": "prometheus",
           "uid": "$datasource"
         },
-        "query": "label_values(namespace)",
-        "definition": "label_values(namespace)",
+        "query": {
+          "query": "label_values(integration_request_seconds_count{namespace=~\"$namespace\"}, namespace)",
+          "refId": "StandardVariableQuery"
+        },
+        "definition": "label_values(integration_request_seconds_count{namespace=~\"$namespace\"}, namespace)",
         "multi": true,
         "includeAll": true,
         "current": {
@@ -475,17 +478,17 @@
           "type": "prometheus",
           "uid": "$datasource"
         },
-        "definition": "label_values(integration_request_seconds_count{namespace=~\"$name_space_variable\"}, hostname)",
+        "definition": "label_values(integration_request_seconds_count{namespace=~\"$namespace\"}, client_name)",
         "description": null,
         "error": null,
         "hide": 0,
         "includeAll": true,
-        "label": "Host",
+        "label": "Client",
         "multi": true,
-        "name": "host",
+        "name": "client_name",
         "options": [],
         "query": {
-          "query": "label_values(integration_request_seconds_count{namespace=~\"name_space_variable\"}, hostname)",
+          "query": "label_values(integration_request_seconds_count{namespace=~\"$namespace\"}, client_name)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,

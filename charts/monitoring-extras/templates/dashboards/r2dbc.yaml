@@ -1,4 +1,4 @@
-{{- if .Values.dashboards.r2dbc.enabled }}
+{{- if and .Values.dashboards.enabled .Values.dashboards.r2dbc.enabled }}
 {{ $name := printf "%s-r2dbc-dashboard" .Release.Namespace  }}
 {{ $uid :=  $name | sha1sum  }}
 apiVersion: v1

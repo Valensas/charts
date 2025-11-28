@@ -1,4 +1,4 @@
-{{- if .Values.rules.computeResources.enabled }}
+{{- if and .Values.rules.enabled .Values.rules.computeResources.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:

@@ -3,6 +3,7 @@
 externalMonitors: []
 
 dashboards:
+  enabled: true
   labels:
     grafana_dashboard: "1"
   barman:
@@ -44,6 +45,7 @@ extraDashboards: {}
 # Create PrometheusRules to monitor different
 # applications and components.
 rules:
+  enabled: true
   barman:
     enabled: true
   computeResources:

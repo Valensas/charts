@@ -1,4 +1,4 @@
-{{- if .Values.dashboards.barman.enabled }}
+{{- if and .Values.dashboards.enabled .Values.dashboards.barman.enabled }}
 {{ $name := printf "%s-barman-dashboard" .Release.Namespace  }}
 {{ $uid :=  $name | sha1sum  }}
 apiVersion: v1

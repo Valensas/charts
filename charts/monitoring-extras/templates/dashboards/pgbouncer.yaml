@@ -1,4 +1,4 @@
-{{- if .Values.dashboards.pgbouncer.enabled }}
+{{- if and .Values.dashboards.enabled .Values.dashboards.pgbouncer.enabled }}
 {{ $name := printf "%s-pgbouncer-dashboard" .Release.Namespace  }}
 {{ $uid :=  $name | sha1sum  }}
 apiVersion: v1

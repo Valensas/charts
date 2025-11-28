@@ -1,4 +1,4 @@
-{{- if .Values.dashboards.snmp.enabled }}
+{{- if and .Values.dashboards.enabled .Values.dashboards.snmp.enabled }}
 {{ $name := printf "%s-snmp-dashboard" .Release.Namespace  }}
 {{ $uid :=  $name | sha1sum  }}
 apiVersion: v1

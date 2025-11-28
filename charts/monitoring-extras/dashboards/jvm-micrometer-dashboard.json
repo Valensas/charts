@@ -35,9 +35,7 @@
   "graphTooltip": 1,
   "id": 3,
   "iteration": 1586175213060,
-  "links": [
-
-  ],
+  "links": [],
   "panels": [
     {
       "collapsed": false,
@@ -48,9 +46,7 @@
         "y": 0
       },
       "id": 125,
-      "panels": [
-
-      ],
+      "panels": [],
       "repeat": null,
       "title": "Quick Facts",
       "type": "row"
@@ -88,9 +84,7 @@
       "height": "",
       "id": 63,
       "interval": null,
-      "links": [
-
-      ],
+      "links": [],
       "mappingType": 1,
       "mappingTypes": [
         {
@@ -105,8 +99,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {
-      },
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -127,7 +120,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "process_uptime_seconds{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "process_uptime_seconds{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -182,9 +175,7 @@
       "height": "",
       "id": 92,
       "interval": null,
-      "links": [
-
-      ],
+      "links": [],
       "mappingType": 1,
       "mappingTypes": [
         {
@@ -199,8 +190,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {
-      },
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -221,7 +211,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "process_start_time_seconds{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}*1000",
+          "expr": "process_start_time_seconds{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}*1000",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -275,9 +265,7 @@
       },
       "id": 65,
       "interval": null,
-      "links": [
-
-      ],
+      "links": [],
       "mappingType": 1,
       "mappingTypes": [
         {
@@ -292,8 +280,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {
-      },
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -314,7 +301,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(jvm_memory_used_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", area=\"heap\"})*100/sum(jvm_memory_max_bytes{namespace=\"$name_space_variable\", application=\"$application\",pod=\"$pod\", area=\"heap\"})",
+          "expr": "sum(jvm_memory_used_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", area=\"heap\"})*100/sum(jvm_memory_max_bytes{namespace=\"$namespace\", application=\"$application\",pod=\"$pod\", area=\"heap\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -367,9 +354,7 @@
       },
       "id": 75,
       "interval": null,
-      "links": [
-
-      ],
+      "links": [],
       "mappingType": 2,
       "mappingTypes": [
         {
@@ -384,8 +369,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {
-      },
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -411,7 +395,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(jvm_memory_used_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", area=\"nonheap\"})*100/sum(jvm_memory_max_bytes{namespace=\"$name_space_variable\", application=\"$application\",pod=\"$pod\", area=\"nonheap\"})",
+          "expr": "sum(jvm_memory_used_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", area=\"nonheap\"})*100/sum(jvm_memory_max_bytes{namespace=\"$namespace\", application=\"$application\",pod=\"$pod\", area=\"nonheap\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -446,16 +430,13 @@
         "y": 4
       },
       "id": 126,
-      "panels": [
-
-      ],
+      "panels": [],
       "repeat": null,
       "title": "I/O Overview",
       "type": "row"
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -482,38 +463,29 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(http_server_requests_seconds_count{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}[1m]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}[1m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "HTTP",
           "refId": "A"
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "Rate",
       "tooltip": {
@@ -527,9 +499,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "yaxes": [
         {
@@ -586,38 +556,29 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(http_server_requests_seconds_count{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", status=~\"5..\"}[1m]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", status=~\"5..\"}[1m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "HTTP - 5xx",
           "refId": "A"
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "Errors",
       "tooltip": {
@@ -631,9 +592,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "yaxes": [
         {
@@ -660,8 +619,7 @@
       }
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -688,25 +646,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(http_server_requests_seconds_sum{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", status!~\"5..\"}[1m]))/sum(rate(http_server_requests_seconds_count{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", status!~\"5..\"}[1m]))",
+          "expr": "sum(rate(http_server_requests_seconds_sum{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", status!~\"5..\"}[1m]))/sum(rate(http_server_requests_seconds_count{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", status!~\"5..\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -714,7 +667,7 @@
           "refId": "A"
         },
         {
-          "expr": "max(http_server_requests_seconds_max{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", status!~\"5..\"})",
+          "expr": "max(http_server_requests_seconds_max{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", status!~\"5..\"})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -722,13 +675,9 @@
           "refId": "B"
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "Duration",
       "tooltip": {
@@ -742,9 +691,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "yaxes": [
         {
@@ -770,8 +717,7 @@
       }
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -800,25 +746,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "tomcat_threads_busy_threads{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "tomcat_threads_busy_threads{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -826,7 +767,7 @@
           "refId": "A"
         },
         {
-          "expr": "tomcat_threads_current_threads{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "tomcat_threads_current_threads{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -834,7 +775,7 @@
           "refId": "B"
         },
         {
-          "expr": "tomcat_threads_config_max_threads{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "tomcat_threads_config_max_threads{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -842,7 +783,7 @@
           "refId": "C"
         },
         {
-          "expr": "jetty_threads_busy{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "jetty_threads_busy{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -850,7 +791,7 @@
           "refId": "D"
         },
         {
-          "expr": "jetty_threads_current{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "jetty_threads_current{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -858,7 +799,7 @@
           "refId": "E"
         },
         {
-          "expr": "jetty_threads_config_max{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "jetty_threads_config_max{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -866,13 +807,9 @@
           "refId": "F"
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "Utilisation",
       "tooltip": {
@@ -886,9 +823,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "yaxes": [
         {
@@ -922,16 +857,13 @@
         "y": 12
       },
       "id": 127,
-      "panels": [
-
-      ],
+      "panels": [],
       "repeat": null,
       "title": "JVM Memory",
       "type": "row"
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -968,25 +900,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(jvm_memory_used_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", area=\"heap\"})",
+          "expr": "sum(jvm_memory_used_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", area=\"heap\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "used",
@@ -995,7 +922,7 @@
           "step": 2400
         },
         {
-          "expr": "sum(jvm_memory_committed_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", area=\"heap\"})",
+          "expr": "sum(jvm_memory_committed_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", area=\"heap\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "committed",
@@ -1003,7 +930,7 @@
           "step": 2400
         },
         {
-          "expr": "sum(jvm_memory_max_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", area=\"heap\"})",
+          "expr": "sum(jvm_memory_max_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", area=\"heap\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "max",
@@ -1011,13 +938,9 @@
           "step": 2400
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "JVM Heap",
       "tooltip": {
@@ -1033,9 +956,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -1066,8 +987,7 @@
       }
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -1104,25 +1024,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(jvm_memory_used_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", area=\"nonheap\"})",
+          "expr": "sum(jvm_memory_used_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", area=\"nonheap\"})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1132,7 +1047,7 @@
           "step": 2400
         },
         {
-          "expr": "sum(jvm_memory_committed_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", area=\"nonheap\"})",
+          "expr": "sum(jvm_memory_committed_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", area=\"nonheap\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "committed",
@@ -1140,7 +1055,7 @@
           "step": 2400
         },
         {
-          "expr": "sum(jvm_memory_max_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", area=\"nonheap\"})",
+          "expr": "sum(jvm_memory_max_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", area=\"nonheap\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "max",
@@ -1148,13 +1063,9 @@
           "step": 2400
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "JVM Non-Heap",
       "tooltip": {
@@ -1170,9 +1081,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -1203,8 +1112,7 @@
       }
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -1242,25 +1150,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(jvm_memory_used_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"})",
+          "expr": "sum(jvm_memory_used_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "used",
@@ -1269,7 +1172,7 @@
           "step": 2400
         },
         {
-          "expr": "sum(jvm_memory_committed_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"})",
+          "expr": "sum(jvm_memory_committed_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "committed",
@@ -1277,7 +1180,7 @@
           "step": 2400
         },
         {
-          "expr": "sum(jvm_memory_max_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"})",
+          "expr": "sum(jvm_memory_max_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "max",
@@ -1285,13 +1188,9 @@
           "step": 2400
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "JVM Total",
       "tooltip": {
@@ -1307,9 +1206,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -1340,8 +1237,7 @@
       }
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -1378,25 +1274,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "process_memory_vss_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "process_memory_vss_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "hide": true,
           "intervalFactor": 2,
@@ -1406,34 +1297,30 @@
           "step": 2400
         },
         {
-          "expr": "process_memory_rss_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "process_memory_rss_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "rss",
           "refId": "B"
         },
         {
-          "expr": "process_memory_swap_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "process_memory_swap_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "swap",
           "refId": "C"
         },
         {
-          "expr": "process_memory_rss_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"} + process_memory_swap_bytes{application=\"$application\", pod=\"$pod\"}",
+          "expr": "process_memory_rss_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"} + process_memory_swap_bytes{application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "total",
           "refId": "D"
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "JVM Process Memory",
       "tooltip": {
@@ -1449,9 +1336,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -1490,16 +1375,13 @@
         "y": 20
       },
       "id": 128,
-      "panels": [
-
-      ],
+      "panels": [],
       "repeat": null,
       "title": "JVM Misc",
       "type": "row"
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -1536,25 +1418,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "system_cpu_usage{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "system_cpu_usage{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1564,7 +1441,7 @@
           "step": 2400
         },
         {
-          "expr": "process_cpu_usage{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "process_cpu_usage{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1572,7 +1449,7 @@
           "refId": "B"
         },
         {
-          "expr": "avg_over_time(process_cpu_usage{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}[1h])",
+          "expr": "avg_over_time(process_cpu_usage{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}[1h])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1580,13 +1457,9 @@
           "refId": "C"
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "CPU Usage",
       "tooltip": {
@@ -1602,9 +1475,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -1636,8 +1507,7 @@
       }
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -1674,25 +1544,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "system_load_average_1m{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "system_load_average_1m{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "system-1m",
@@ -1701,20 +1566,16 @@
           "step": 2400
         },
         {
-          "expr": "system_cpu_count{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "system_cpu_count{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "cpus",
           "refId": "B"
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "Load",
       "tooltip": {
@@ -1730,9 +1591,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -1764,8 +1623,7 @@
       }
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -1802,25 +1660,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_threads_live_threads{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "jvm_threads_live_threads{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "live",
@@ -1829,7 +1682,7 @@
           "step": 2400
         },
         {
-          "expr": "jvm_threads_daemon_threads{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "jvm_threads_daemon_threads{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "daemon",
@@ -1838,7 +1691,7 @@
           "step": 2400
         },
         {
-          "expr": "jvm_threads_peak_threads{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "jvm_threads_peak_threads{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "peak",
@@ -1846,7 +1699,7 @@
           "step": 2400
         },
         {
-          "expr": "process_threads{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "process_threads{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1855,13 +1708,9 @@
           "step": 2400
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "Threads",
       "tooltip": {
@@ -1877,9 +1726,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -1947,38 +1794,29 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_threads_states_threads{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "jvm_threads_states_threads{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{state}}",
           "refId": "A"
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "Thread States",
       "tooltip": {
@@ -1992,9 +1830,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "yaxes": [
         {
@@ -2068,12 +1904,9 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": true,
       "pointradius": 5,
       "points": false,
@@ -2093,7 +1926,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "increase(logback_events_total{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}[1m])",
+          "expr": "increase(logback_events_total{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2103,13 +1936,9 @@
           "step": 1200
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "Log Events",
       "tooltip": {
@@ -2125,9 +1954,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -2159,8 +1986,7 @@
       }
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -2197,25 +2023,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "process_files_open_files{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "process_files_open_files{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -2225,7 +2046,7 @@
           "step": 2400
         },
         {
-          "expr": "process_files_max_files{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "process_files_max_files{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -2235,13 +2056,9 @@
           "step": 2400
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [
-
-      ],
+      "timeRegions": [],
       "timeShift": null,
       "title": "File Descriptors",
       "tooltip": {
@@ -2257,9 +2074,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -2299,16 +2114,13 @@
         "y": 35
       },
       "id": 129,
-      "panels": [
-
-      ],
+      "panels": [],
       "repeat": "persistence_counts",
       "title": "JVM Memory Pools (Heap)",
       "type": "row"
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -2347,27 +2159,22 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "maxPerRow": 3,
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
       "repeat": "jvm_memory_pool_heap",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_memory_used_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", id=~\"$jvm_memory_pool_heap\"}",
+          "expr": "jvm_memory_used_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", id=~\"$jvm_memory_pool_heap\"}",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2378,7 +2185,7 @@
           "step": 1800
         },
         {
-          "expr": "jvm_memory_committed_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", id=~\"$jvm_memory_pool_heap\"}",
+          "expr": "jvm_memory_committed_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", id=~\"$jvm_memory_pool_heap\"}",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2389,7 +2196,7 @@
           "step": 1800
         },
         {
-          "expr": "jvm_memory_max_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", id=~\"$jvm_memory_pool_heap\"}",
+          "expr": "jvm_memory_max_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", id=~\"$jvm_memory_pool_heap\"}",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2400,9 +2207,7 @@
           "step": 1800
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
       "title": "$jvm_memory_pool_heap",
@@ -2419,9 +2224,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -2456,16 +2259,13 @@
         "y": 43
       },
       "id": 130,
-      "panels": [
-
-      ],
+      "panels": [],
       "repeat": null,
       "title": "JVM Memory Pools (Non-Heap)",
       "type": "row"
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -2504,27 +2304,22 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "maxPerRow": 3,
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
       "repeat": "jvm_memory_pool_nonheap",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_memory_used_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", id=~\"$jvm_memory_pool_nonheap\"}",
+          "expr": "jvm_memory_used_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", id=~\"$jvm_memory_pool_nonheap\"}",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2535,7 +2330,7 @@
           "step": 1800
         },
         {
-          "expr": "jvm_memory_committed_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", id=~\"$jvm_memory_pool_nonheap\"}",
+          "expr": "jvm_memory_committed_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", id=~\"$jvm_memory_pool_nonheap\"}",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2546,7 +2341,7 @@
           "step": 1800
         },
         {
-          "expr": "jvm_memory_max_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", id=~\"$jvm_memory_pool_nonheap\"}",
+          "expr": "jvm_memory_max_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", id=~\"$jvm_memory_pool_nonheap\"}",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2557,9 +2352,7 @@
           "step": 1800
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
       "title": "$jvm_memory_pool_nonheap",
@@ -2576,9 +2369,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -2613,16 +2404,13 @@
         "y": 51
       },
       "id": 131,
-      "panels": [
-
-      ],
+      "panels": [],
       "repeat": null,
       "title": "Garbage Collection",
       "type": "row"
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -2649,25 +2437,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(jvm_gc_pause_seconds_count{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}[1m])",
+          "expr": "rate(jvm_gc_pause_seconds_count{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}[1m])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -2675,9 +2458,7 @@
           "refId": "A"
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
       "title": "Collections",
@@ -2692,9 +2473,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "yaxes": [
         {
@@ -2716,8 +2495,7 @@
       ]
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -2744,25 +2522,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(jvm_gc_pause_seconds_sum{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}[1m])/rate(jvm_gc_pause_seconds_count{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}[1m])",
+          "expr": "rate(jvm_gc_pause_seconds_sum{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}[1m])/rate(jvm_gc_pause_seconds_count{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}[1m])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -2771,7 +2544,7 @@
           "refId": "A"
         },
         {
-          "expr": "jvm_gc_pause_seconds_max{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "jvm_gc_pause_seconds_max{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -2780,9 +2553,7 @@
           "refId": "B"
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
       "title": "Pause Durations",
@@ -2797,9 +2568,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "yaxes": [
         {
@@ -2821,8 +2590,7 @@
       ]
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -2849,25 +2617,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(jvm_gc_memory_allocated_bytes_total{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}[1m])",
+          "expr": "rate(jvm_gc_memory_allocated_bytes_total{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -2875,7 +2638,7 @@
           "refId": "A"
         },
         {
-          "expr": "rate(jvm_gc_memory_promoted_bytes_total{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}[1m])",
+          "expr": "rate(jvm_gc_memory_promoted_bytes_total{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}[1m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -2883,9 +2646,7 @@
           "refId": "B"
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
       "title": "Allocated/Promoted",
@@ -2900,9 +2661,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "yaxes": [
         {
@@ -2932,16 +2691,13 @@
         "y": 59
       },
       "id": 132,
-      "panels": [
-
-      ],
+      "panels": [],
       "repeat": null,
       "title": "Classloading",
       "type": "row"
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -2978,25 +2734,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_classes_loaded_classes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\"}",
+          "expr": "jvm_classes_loaded_classes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "loaded",
@@ -3005,9 +2756,7 @@
           "step": 1200
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
       "title": "Classes loaded",
@@ -3024,9 +2773,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -3053,8 +2800,7 @@
       ]
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -3091,25 +2837,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "delta(jvm_classes_loaded_classes{namespace=\"$name_space_variable\", application=\"$application\",pod=\"$pod\"}[1m])",
+          "expr": "delta(jvm_classes_loaded_classes{namespace=\"$namespace\", application=\"$application\",pod=\"$pod\"}[1m])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -3120,9 +2861,7 @@
           "step": 1200
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
       "title": "Class delta",
@@ -3139,9 +2878,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -3177,16 +2914,13 @@
         "y": 67
       },
       "id": 133,
-      "panels": [
-
-      ],
+      "panels": [],
       "repeat": null,
       "title": "Buffer Pools",
       "type": "row"
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -3223,25 +2957,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_buffer_memory_used_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", id=\"direct\"}",
+          "expr": "jvm_buffer_memory_used_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", id=\"direct\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "used",
@@ -3250,7 +2979,7 @@
           "step": 2400
         },
         {
-          "expr": "jvm_buffer_total_capacity_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", id=\"direct\"}",
+          "expr": "jvm_buffer_total_capacity_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", id=\"direct\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "capacity",
@@ -3259,9 +2988,7 @@
           "step": 2400
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
       "title": "Direct Buffers",
@@ -3278,9 +3005,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -3307,8 +3032,7 @@
       ]
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -3345,25 +3069,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_buffer_count_buffers{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", id=\"direct\"}",
+          "expr": "jvm_buffer_count_buffers{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", id=\"direct\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "count",
@@ -3372,9 +3091,7 @@
           "step": 2400
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
       "title": "Direct Buffers",
@@ -3391,9 +3108,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -3421,8 +3136,7 @@
       ]
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -3459,25 +3173,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_buffer_memory_used_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", id=\"mapped\"}",
+          "expr": "jvm_buffer_memory_used_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", id=\"mapped\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "used",
@@ -3486,7 +3195,7 @@
           "step": 2400
         },
         {
-          "expr": "jvm_buffer_total_capacity_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", id=\"mapped\"}",
+          "expr": "jvm_buffer_total_capacity_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", id=\"mapped\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "capacity",
@@ -3495,9 +3204,7 @@
           "step": 2400
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
       "title": "Mapped Buffers",
@@ -3514,9 +3221,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -3543,8 +3248,7 @@
       ]
     },
     {
-      "aliasColors": {
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -3581,25 +3285,20 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-
-      ],
+      "links": [],
       "nullPointMode": "null",
-      "options": {
-      },
+      "options": {},
       "percentage": false,
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_buffer_count_buffers{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", id=\"mapped\"}",
+          "expr": "jvm_buffer_count_buffers{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", id=\"mapped\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "count",
@@ -3608,9 +3307,7 @@
           "step": 2400
         }
       ],
-      "thresholds": [
-
-      ],
+      "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
       "title": "Mapped Buffers",
@@ -3627,9 +3324,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-
-        ]
+        "values": []
       },
       "y-axis": true,
       "y_formats": [
@@ -3660,9 +3355,7 @@
   "refresh": "5s",
   "schemaVersion": 18,
   "style": "dark",
-  "tags": [
-
-  ],
+  "tags": [],
   "templating": {
     "list": [
       {
@@ -3680,14 +3373,14 @@
           "type": "prometheus",
           "uid": "$datasource"
         },
-        "definition": "label_values(namespace)",
+        "definition": "label_values(jvm_memory_used_bytes, namespace)",
         "hide": 0,
         "includeAll": false,
         "label": "Namespace",
         "multi": false,
-        "name": "name_space_variable",
+        "name": "namespace",
         "options": [],
-        "query": "label_values(namespace)",
+        "query": "label_values(jvm_memory_used_bytes, namespace)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -3696,8 +3389,7 @@
       },
       {
         "allValue": ".*",
-        "current": {
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "$datasource"
@@ -3708,18 +3400,14 @@
         "label": "Application",
         "multi": false,
         "name": "application",
-        "options": [
-
-        ],
-        "query": "label_values(jvm_memory_used_bytes{namespace=\"$name_space_variable\"}, application)",
+        "options": [],
+        "query": "label_values(jvm_memory_used_bytes{namespace=\"$namespace\"}, application)",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
-        "tags": [
-
-        ],
+        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -3727,8 +3415,7 @@
       {
         "allFormat": "glob",
         "allValue": ".*",
-        "current": {
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "$datasource"
@@ -3740,18 +3427,14 @@
         "multi": false,
         "multiFormat": "glob",
         "name": "pod",
-        "options": [
-
-        ],
-        "query": "label_values(jvm_memory_used_bytes{namespace=\"$name_space_variable\", application=\"$application\"}, pod)",
+        "options": [],
+        "query": "label_values(jvm_memory_used_bytes{namespace=\"$namespace\", application=\"$application\"}, pod)",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
-        "tags": [
-
-        ],
+        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -3759,8 +3442,7 @@
       {
         "allFormat": "glob",
         "allValue": ".*",
-        "current": {
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "$datasource"
@@ -3772,18 +3454,14 @@
         "multi": false,
         "multiFormat": "glob",
         "name": "jvm_memory_pool_heap",
-        "options": [
-
-        ],
-        "query": "label_values(jvm_memory_used_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", area=\"heap\"},id)",
+        "options": [],
+        "query": "label_values(jvm_memory_used_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", area=\"heap\"},id)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
-        "tags": [
-
-        ],
+        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -3791,8 +3469,7 @@
       {
         "allFormat": "glob",
         "allValue": ".*",
-        "current": {
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "$datasource"
@@ -3804,18 +3481,14 @@
         "multi": false,
         "multiFormat": "glob",
         "name": "jvm_memory_pool_nonheap",
-        "options": [
-
-        ],
-        "query": "label_values(jvm_memory_used_bytes{namespace=\"$name_space_variable\", application=\"$application\", pod=\"$pod\", area=\"nonheap\"},id)",
+        "options": [],
+        "query": "label_values(jvm_memory_used_bytes{namespace=\"$namespace\", application=\"$application\", pod=\"$pod\", area=\"nonheap\"},id)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 2,
         "tagValuesQuery": "",
-        "tags": [
-
-        ],
+        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false

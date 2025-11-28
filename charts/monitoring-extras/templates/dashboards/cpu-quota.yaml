@@ -1,4 +1,4 @@
-{{- if .Values.dashboards.cpuQuota.enabled }}
+{{- if and .Values.dashboards.enabled .Values.dashboards.cpuQuota.enabled }}
 {{ $name := printf "%s-cpu-quota-dashboard" .Release.Namespace  }}
 {{ $uid :=  $name | sha1sum  }}
 apiVersion: v1

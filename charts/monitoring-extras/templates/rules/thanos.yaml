@@ -1,4 +1,4 @@
-{{- if .Values.rules.thanos.enabled }}
+{{- if and .Values.rules.enabled .Values.rules.thanos.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:

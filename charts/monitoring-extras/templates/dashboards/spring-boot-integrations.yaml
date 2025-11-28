@@ -1,4 +1,4 @@
-{{- if .Values.dashboards.springBootIntegrations.enabled }}
+{{- if and .Values.dashboards.enabled .Values.dashboards.springBootIntegrations.enabled }}
 {{ $name := printf "%s-spring-boot-integrations-dashboard" .Release.Namespace  }}
 {{ $uid :=  $name | sha1sum  }}
 apiVersion: v1

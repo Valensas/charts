@@ -71,14 +71,14 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "r2dbc_pool_idle_connections{namespace=\"$name_space_variable\", application=\"$application\", pod=~\"$pod\"}",
+          "expr": "r2dbc_pool_idle_connections{namespace=\"$namespace\", application=\"$application\", pod=~\"$pod\"}",
           "interval": "",
           "legendFormat": "Idle Connection - {{pod}} ",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "r2dbc_pool_pending_connections{namespace=\"$name_space_variable\", application=\"$application\", pod=~\"$pod\"}",
+          "expr": "r2dbc_pool_pending_connections{namespace=\"$namespace\", application=\"$application\", pod=~\"$pod\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Pending Connection - {{pod}} ",
@@ -86,7 +86,7 @@
         },
         {
           "exemplar": true,
-          "expr": "r2dbc_pool_acquired_connections{namespace=\"$name_space_variable\", application=\"$application\", pod=~\"$pod\"}",
+          "expr": "r2dbc_pool_acquired_connections{namespace=\"$namespace\", application=\"$application\", pod=~\"$pod\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Acquired Connection - {{pod}} ",
@@ -186,7 +186,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "r2dbc_pool_max_allocated_connections{namespace=\"$name_space_variable\", application=\"$application\", pod=~\"$pod\"}",
+          "expr": "r2dbc_pool_max_allocated_connections{namespace=\"$namespace\", application=\"$application\", pod=~\"$pod\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "Max Allocated Connection - {{pod}}",
@@ -284,7 +284,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "r2dbc_pool_max_pending_connections{namespace=\"$name_space_variable\", application=\"$application\", pod=~\"$pod\"}",
+          "expr": "r2dbc_pool_max_pending_connections{namespace=\"$namespace\", application=\"$application\", pod=~\"$pod\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "Max Pending Connection - {{pod}}",
@@ -354,14 +354,14 @@
           "type": "prometheus",
           "uid": "$datasource"
         },
-        "definition": "label_values(namespace)",
+        "definition": "label_values(r2dbc_pool_idle_connections, namespace)",
         "hide": 0,
         "includeAll": false,
         "label": "Namespace",
         "multi": false,
-        "name": "name_space_variable",
+        "name": "namespace",
         "options": [],
-        "query": "label_values(namespace)",
+        "query": "label_values(r2dbc_pool_idle_connections, namespace)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -373,7 +373,7 @@
           "type": "prometheus",
           "uid": "$datasource"
         },
-        "definition": "label_values(r2dbc_pool_idle_connections{namespace=\"$name_space_variable\"}, application)",
+        "definition": "label_values(r2dbc_pool_idle_connections{namespace=\"$namespace\"}, application)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -383,7 +383,7 @@
         "name": "application",
         "options": [],
         "query": {
-          "query": "label_values(r2dbc_pool_idle_connections{namespace=\"$name_space_variable\"}, application)",
+          "query": "label_values(r2dbc_pool_idle_connections{namespace=\"$namespace\"}, application)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
@@ -411,7 +411,7 @@
           "type": "prometheus",
           "uid": "$datasource"
         },
-        "definition": "label_values(r2dbc_pool_idle_connections{namespace=\"$name_space_variable\", application=\"$application\"}, pod)",
+        "definition": "label_values(r2dbc_pool_idle_connections{namespace=\"$namespace\", application=\"$application\"}, pod)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -421,7 +421,7 @@
         "name": "pod",
         "options": [],
         "query": {
-          "query": "label_values(r2dbc_pool_idle_connections{namespace=\"$name_space_variable\", application=\"$application\"}, pod)",
+          "query": "label_values(r2dbc_pool_idle_connections{namespace=\"$namespace\", application=\"$application\"}, pod)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,

@@ -1,4 +1,4 @@
-{{- if .Values.dashboards.postgresReplication.enabled }}
+{{- if and .Values.dashboards.enabled .Values.dashboards.postgresReplication.enabled }}
 {{ $name := printf "%s-postgres-replication-dashboard" .Release.Namespace  }}
 {{ $uid :=  $name | sha1sum  }}
 apiVersion: v1
