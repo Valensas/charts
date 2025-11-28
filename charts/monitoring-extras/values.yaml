@@ -25,6 +25,14 @@ dashboards:
     enabled: true
   nodejs:
     enabled: true
+  springBootHttp:
+    enabled: true
+  springBootIntegrations:
+    enabled: true
+  r2dbc:
+    enabled: true
+  jvmMicrometer:
+    enabled: true
 
 # Create ConfigMaps for Grafana dashboards to be
 # provisioned using [Hoenir](https://github.com/Valensas/Hoenir).
