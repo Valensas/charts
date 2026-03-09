@@ -11,6 +11,9 @@ spec:
       path: /metrics
       targetPort: tcp-prometheus
       scheme: http
+      {{- with .Values.podMonitor.timeout }}
+      scrapeTimeout: {{ . | quote }}
+      {{- end }}
   selector:
     matchExpressions:
       - key: strimzi.io/cluster

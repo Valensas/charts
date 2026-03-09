@@ -24,6 +24,7 @@ podMonitor:
   enabled: false
   #   name:
   interval: 30s
+  #   timeout: 10s
 
 pools:
   - name: default
@@ -53,8 +54,7 @@ affinity: {}
 #     partitions: 10
 
 # List of topics to create
-topics:
-  []
+topics: []
   # Fetch all configuration from the type
   # - name: topic-1
   #   type: default
