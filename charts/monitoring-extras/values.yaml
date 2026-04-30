@@ -8,8 +8,7 @@ dashboards:
     grafana_dashboard: "1"
   barman:
     enabled: true
-  components:
-    enabled: true
+
   cpuQuota:
     enabled: true
   kafka:
@@ -34,7 +33,11 @@ dashboards:
     enabled: true
   jvmMicrometer:
     enabled: true
-
+  observability:
+    buildInfo:
+      enabled: true
+    components:
+      enabled: true
 # Create ConfigMaps for Grafana dashboards to be
 # provisioned using [Hoenir](https://github.com/Valensas/Hoenir).
 extraDashboards: {}
