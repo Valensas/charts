@@ -1,0 +1,3 @@
+{{- if and .Values.frontend.enabled .Values.frontend.autoscaling.enabled -}}
+{{- include "paranoyak-ai.hpa" (dict "root" $ "component" "frontend") }}
+{{- end }}

@@ -1,0 +1,3 @@
+{{- if and .Values.frontend.enabled .Values.frontend.podMonitor.enabled -}}
+{{- include "paranoyak-ai.podMonitor" (dict "root" $ "component" "frontend") }}
+{{- end }}

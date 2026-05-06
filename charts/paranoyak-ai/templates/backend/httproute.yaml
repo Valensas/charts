@@ -1,0 +1,3 @@
+{{- if and .Values.backend.enabled .Values.backend.httpRoute.enabled -}}
+{{- include "paranoyak-ai.httpRoute" (dict "root" $ "component" "backend") }}
+{{- end }}

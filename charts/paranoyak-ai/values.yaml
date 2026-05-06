@@ -1,0 +1,316 @@
+# Default values for paranoyak-ai.
+# This is a YAML-formatted file.
+# This chart deploys two components: frontend and backend.
+
+# -- Override the chart name.
+nameOverride: ""
+# -- Override the fully qualified app name.
+fullnameOverride: ""
+
+# -- Image pull secrets shared by all components.
+imagePullSecrets: []
+
+# -- Global overrides applied to all components.
+global:
+  # -- Container image registry hostname (e.g. "harbor.example.com").
+  # Prepended to every component's image.repository unless the component
+  # sets image.registry explicitly. Leave empty to use bare repositories.
+  registry: ""
+
+# ----------------------------------------------------------------------------
+# Frontend
+# ----------------------------------------------------------------------------
+frontend:
+  enabled: true
+  replicaCount: 2
+
+  image:
+    # -- Per-component override of global.registry. Empty falls back to global.
+    registry: ""
+    #    repository: ""
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+
+  serviceAccount:
+    create: true
+    automount: true
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+  podLabels: {}
+
+  podSecurityContext: {}
+  securityContext: {}
+
+  service:
+    type: ClusterIP
+    ports:
+      http: 80
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  startupProbe:
+    httpGet:
+      path: /actuator/health
+      port: http
+      scheme: HTTP
+    initialDelaySeconds: 20
+    timeoutSeconds: 1
+    periodSeconds: 1
+    successThreshold: 1
+    failureThreshold: 300
+
+  livenessProbe:
+    httpGet:
+      path: /actuator/health
+      port: http
+      scheme: HTTP
+    timeoutSeconds: 1
+    periodSeconds: 1
+    successThreshold: 1
+    failureThreshold: 10
+
+  readinessProbe:
+    httpGet:
+      path: /actuator/health
+      port: http
+      scheme: HTTP
+    timeoutSeconds: 1
+    periodSeconds: 1
+    successThreshold: 1
+    failureThreshold: 1
+
+  autoscaling:
+    enabled: false
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  env: []
+  envFrom: []
+  volumes: []
+  volumeMounts: []
+
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  # Bitnami common affinity presets used when affinity is empty.
+  podAffinityPreset: ""
+  podAntiAffinityPreset: soft
+  nodeAffinityPreset:
+    type: ""
+    key: ""
+    values: []
+
+  pdb:
+    enabled: true
+    maxUnavailable: 30%
+    # minAvailable:
+
+  podMonitor:
+    enabled: false
+    port: http
+    path: /actuator/prometheus
+    interval: 30s
+    scrapeTimeout: 10s
+    labels: {}
+    annotations: {}
+    relabelings: []
+    metricRelabelings: []
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+
+  httpRoute:
+    enabled: false
+    annotations: {}
+    parentRefs:
+      - name: gateway
+        sectionName: http
+    hostnames:
+      - chart-example.local
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+
+# ----------------------------------------------------------------------------
+# Backend
+# ----------------------------------------------------------------------------
+backend:
+  enabled: true
+  replicaCount: 2
+
+  image:
+    registry: ""
+    # repository:
+    pullPolicy: IfNotPresent
+    tag: ""
+
+  serviceAccount:
+    create: true
+    automount: true
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+  podLabels: {}
+
+  podSecurityContext: {}
+  securityContext: {}
+
+  service:
+    type: ClusterIP
+    ports:
+      http: 80
+      management: 9090
+
+  resources:
+    limits:
+      cpu: "1"
+      memory: 1Gi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+
+  startupProbe:
+    httpGet:
+      path: /actuator/health/liveness
+      port: http-management
+      scheme: HTTP
+    initialDelaySeconds: 20
+    timeoutSeconds: 1
+    periodSeconds: 1
+    successThreshold: 1
+    failureThreshold: 300
+
+  livenessProbe:
+    httpGet:
+      path: /actuator/health/liveness
+      port: http-management
+      scheme: HTTP
+    timeoutSeconds: 1
+    periodSeconds: 1
+    successThreshold: 1
+    failureThreshold: 10
+
+  readinessProbe:
+    httpGet:
+      path: /actuator/health/readiness
+      port: http-management
+      scheme: HTTP
+    timeoutSeconds: 1
+    periodSeconds: 1
+    successThreshold: 1
+    failureThreshold: 1
+
+  autoscaling:
+    enabled: false
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  env: []
+  envFrom: []
+  volumes: []
+  volumeMounts: []
+
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podAffinityPreset: ""
+  podAntiAffinityPreset: soft
+  nodeAffinityPreset:
+    type: ""
+    key: ""
+    values: []
+
+  pdb:
+    enabled: true
+    maxUnavailable: 30%
+    # minAvailable:
+
+  podMonitor:
+    enabled: false
+    port: http-management
+    path: /actuator/prometheus
+    interval: 30s
+    scrapeTimeout: 10s
+    labels: {}
+    annotations: {}
+    relabelings: []
+    metricRelabelings: []
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: api.chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+
+  httpRoute:
+    enabled: false
+    annotations: {}
+    parentRefs:
+      - name: gateway
+        sectionName: http
+    hostnames:
+      - api.chart-example.local
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+
+# ----------------------------------------------------------------------------
+# Shared application config & secrets, consumed by frontend and backend
+# via envFrom (rendered into a ConfigMap and a Secret in templates/common/).
+# ----------------------------------------------------------------------------
+config:
+  spring:
+    containerPort: 8080
+    managementPort: 9090
+    forwardHeadersStrategy: NATIVE
+    tracingBaggageRemoteFields: "x-client-ip,b3,x-b3-parentspanid,x-b3-sampled,x-b3-traceid,x-request-id"
+  backend:
+    url: http://backend/api
+  postgres: {}
+    # database:
+    # host:
+    # port:
+    # user:
+    # password:
+  deepseek:
+    url: https://api.deepseek.com
+    model: "deepseek-chat"
+    # apiKey:
+  keycloak: {}
+    # url:
+    # realm:
+    # clientId:
+  metabase: {}
+    # url:
+    # embedSecret:

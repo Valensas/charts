@@ -1,0 +1,3 @@
+{{- if and .Values.frontend.enabled .Values.frontend.ingress.enabled -}}
+{{- include "paranoyak-ai.ingress" (dict "root" $ "component" "frontend") }}
+{{- end }}

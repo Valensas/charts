@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "paranoyak-ai.fullname" $ }}-config
+  labels:
+    {{- include "paranoyak-ai.labels" $ | nindent 4 }}
+data:
+  API_BASE_URL: {{ .Values.config.apiBaseUrl | required "config.apiBaseUrl is required" | quote }}
+  # DeepSeek Configuration
+  DEEPSEEK_URL: {{ $.Values.config.deepseek.url | required "config.deepseek.url is required" | quote }}
+  DEEPSEEK_MODEL: {{ $.Values.config.deepseek.model | required "config.deepseek.model is required" | quote }}
+
+  # Keycloak Configuration
+  KEYCLOAK_URL: {{ .Values.config.keycloak.url | required "config.keycloak.url is required" | quote }}
+  KEYCLOAK_REALM: {{ .Values.config.keycloak.realm | required "config.keycloak.realm is required" | quote }}
+  KEYCLOAK_CLIENT_ID: {{ .Values.config.keycloak.clientId | required "config.keycloak.clientId is required" | quote }}
+
+  # Postgres Configuration
+  DATABASE_NAME: {{ $.Values.config.postgres.database | required "config.postgres.database is required" | quote }}
+  DATABASE_HOST: {{ $.Values.config.postgres.host | required "config.postgres.host is required" | quote }}
+  DATABASE_PORT: {{ $.Values.config.postgres.port | required "config.postgres.port is required" | quote }}
+  # Metabase Configuration
+  METABASE_BASE_URL: {{ .Values.config.metabase.url | required "config.metabase.url is required" | quote }}
+
+  # Spring Configuration
+  SERVER_PORT: {{ $.Values.config.spring.containerPort | quote }}
+  SERVER_FORWARDHEADERSSTRATEGY: {{ $.Values.config.spring.forwardHeadersStrategy | quote }}
+  MANAGEMENT_SERVER_PORT: {{ $.Values.config.spring.managementPort | quote }}
+  MANAGEMENT_METRICS_WEB_SERVER_REQUEST_AUTOTIME_ENABLED: 'true'
+  MANAGEMENT_TRACING_BAGGAGE_REMOTEFIELDS: {{ $.Values.config.spring.tracingBaggageRemoteFields | quote }}
+  MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS: always
+  MANAGEMENT_ENDPOINT_HEALTH_SHOWCOMPONENTS: always

@@ -1,0 +1,3 @@
+{{- if .Values.frontend.enabled -}}
+{{- include "paranoyak-ai.deployment" (dict "root" $ "component" "frontend") }}
+{{- end }}

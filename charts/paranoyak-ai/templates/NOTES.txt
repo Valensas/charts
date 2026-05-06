@@ -1,0 +1,37 @@
+paranoyak-ai has been deployed with the following components:
+{{- if .Values.frontend.enabled }}
+  - frontend
+{{- end }}
+{{- if .Values.backend.enabled }}
+  - backend
+{{- end }}
+
+{{- if .Values.frontend.enabled }}
+
+1. Access the frontend:
+{{- $ctx := dict "root" $ "component" "frontend" }}
+{{- if .Values.frontend.httpRoute.enabled }}
+{{- if .Values.frontend.httpRoute.hostnames }}
+    export APP_HOSTNAME={{ .Values.frontend.httpRoute.hostnames | first }}
+{{- else }}
+    export APP_HOSTNAME=$(kubectl get --namespace {{ (first .Values.frontend.httpRoute.parentRefs).namespace | default .Release.Namespace }} gateway/{{ (first .Values.frontend.httpRoute.parentRefs).name }} -o jsonpath="{.spec.listeners[0].hostname}")
+{{- end }}
+    echo "Visit http://$APP_HOSTNAME to use your application"
+{{- else if .Values.frontend.ingress.enabled }}
+{{- range $host := .Values.frontend.ingress.hosts }}
+  {{- range .paths }}
+  http{{ if $.Values.frontend.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
+  {{- end }}
+{{- end }}
+{{- else }}
+  export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "paranoyak-ai.name" . }},app.kubernetes.io/instance={{ .Release.Name }},app.kubernetes.io/component=frontend" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:{{ .Values.frontend.service.ports.http }}
+  echo "Visit http://127.0.0.1:8080 to use your application"
+{{- end }}
+{{- end }}
+
+{{- if .Values.backend.enabled }}
+
+2. Backend service is reachable in-cluster at:
+    {{ include "paranoyak-ai.fullname" . }}-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.backend.service.ports.http }}
+{{- end }}

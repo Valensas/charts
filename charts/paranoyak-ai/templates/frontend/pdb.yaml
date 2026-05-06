@@ -1,0 +1,5 @@
+{{- if and .Values.frontend.enabled .Values.frontend.pdb.enabled -}}
+{{- if or .Values.frontend.autoscaling.enabled (gt (int .Values.frontend.replicaCount) 1) -}}
+{{- include "paranoyak-ai.pdb" (dict "root" $ "component" "frontend") }}
+{{- end }}
+{{- end }}
