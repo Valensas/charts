@@ -63,3 +63,5 @@ rules:
     enabled: true
   thanos:
     enabled: true
+  temporal:
+    enabled: true

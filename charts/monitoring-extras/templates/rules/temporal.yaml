@@ -1,0 +1,96 @@
+{{- if and .Values.rules.enabled .Values.rules.temporal.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "monitoring-extras.fullname" . }}-temporal
+  labels:
+    {{- include "monitoring-extras.labels" . | nindent 4 }}
+spec:
+  groups:
+    - name: Temporal
+      rules:
+        - alert: TemporalNoSlotsAvailable
+          expr: sum by (worker_type, exported_namespace, task_queue) (temporal_worker_task_slots_available) == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            message: {{ "Temporal worker {{ $labels.worker_type }} has no available slots in namespace {{ $labels.exported_namespace }} for task queue {{ $labels.task_queue }}." | quote }}
+            description: {{ "Temporal worker {{ $labels.worker_type }} has no available slots in namespace {{ $labels.exported_namespace }} for task queue {{ $labels.task_queue }}." | quote }}
+        - alert: TemporalWorkflowTaskScheduleToStartLatencyIncreasing
+          expr: |
+            predict_linear(
+              (
+                sum by (task_queue, namespace, exported_namespace) (rate(temporal_workflow_task_schedule_to_start_latency_sum[15m]))
+                /
+                sum by (task_queue, namespace, exported_namespace) (rate(temporal_workflow_task_schedule_to_start_latency_count[15m]))
+              )[15m:1m],
+              60 * 15
+            )
+            >
+            (
+              sum by (task_queue, namespace, exported_namespace) (rate(temporal_workflow_task_schedule_to_start_latency_sum[15m]))
+              /
+              sum by (task_queue, namespace, exported_namespace) (rate(temporal_workflow_task_schedule_to_start_latency_count[15m]))
+            )
+            and
+            (
+              sum by (task_queue, namespace, exported_namespace) (rate(temporal_workflow_task_schedule_to_start_latency_sum[15m]))
+              /
+              sum by (task_queue, namespace, exported_namespace) (rate(temporal_workflow_task_schedule_to_start_latency_count[15m]))
+            ) > 1
+          for: 15m
+          labels:
+            severity: critical
+          annotations:
+            message: {{ "Temporal workflow task schedule-to-start mean latency is trending up on task queue {{ $labels.task_queue }} (namespace {{ $labels.exported_namespace }})." | quote }}
+            description: {{ `Workflow task schedule-to-start mean latency for task queue {{ $labels.task_queue }} in Temporal namespace {{ $labels.exported_namespace }} is above 1s and predicted to reach {{ $value | humanizeDuration }} over the next 15m. Workflow workers are likely under-provisioned.` | quote }}
+        - alert: TemporalActivityScheduleToStartLatencyIncreasing
+          expr: |
+            predict_linear(
+              (
+                sum by (task_queue, namespace, exported_namespace) (rate(temporal_activity_schedule_to_start_latency_sum[15m]))
+                /
+                sum by (task_queue, namespace, exported_namespace) (rate(temporal_activity_schedule_to_start_latency_count[15m]))
+              )[15m:1m],
+              60 * 15
+            )
+            >
+            (
+              sum by (task_queue, namespace, exported_namespace) (rate(temporal_activity_schedule_to_start_latency_sum[15m]))
+              /
+              sum by (task_queue, namespace, exported_namespace) (rate(temporal_activity_schedule_to_start_latency_count[15m]))
+            )
+            and
+            (
+              sum by (task_queue, namespace, exported_namespace) (rate(temporal_activity_schedule_to_start_latency_sum[15m]))
+              /
+              sum by (task_queue, namespace, exported_namespace) (rate(temporal_activity_schedule_to_start_latency_count[15m]))
+            ) > 1
+          for: 15m
+          labels:
+            severity: critical
+          annotations:
+            message: {{ "Temporal activity schedule-to-start mean latency is trending up on task queue {{ $labels.task_queue }} (namespace {{ $labels.exported_namespace }})." | quote }}
+            description: {{ `Activity schedule-to-start mean latency for task queue {{ $labels.task_queue }} in Temporal namespace {{ $labels.exported_namespace }} is above 1s and predicted to reach {{ $value | humanizeDuration }} over the next 15m. Activity workers are likely under-provisioned.` | quote }}
+        - alert: TemporalWorkflowFailed
+          expr: |
+            sum by (workflow_type, namespace, exported_namespace) (
+              increase(temporal_workflow_failed[5m])
+            ) > 0
+          labels:
+            severity: critical
+          annotations:
+            message: {{ `Temporal workflow {{ $labels.workflow_type }} failed in Temporal namespace {{ $labels.exported_namespace }}.` | quote }}
+            description: {{ `{{ $value | humanize }} execution(s) of workflow {{ $labels.workflow_type }} failed in Temporal namespace {{ $labels.exported_namespace }} over the last 5m.` | quote }}
+        - alert: TemporalWorkflowTimedOut
+          expr: |
+            sum by (workflow_type, namespace, exported_namespace) (
+              increase(temporal_workflow_timeout[5m])
+            ) > 0
+          labels:
+            severity: critical
+          annotations:
+            message: {{ `Temporal workflow {{ $labels.workflow_type }} timed out in Temporal namespace {{ $labels.exported_namespace }}.` | quote }}
+            description: {{ `{{ $value | humanize }} execution(s) of workflow {{ $labels.workflow_type }} timed out in Temporal namespace {{ $labels.exported_namespace }} over the last 5m.` | quote }}
+{{- end }}
