@@ -40,6 +40,8 @@ dashboards:
       enabled: true
   macmon:
     enabled: true
+  resourceOverview:
+    enabled: true
 # Create ConfigMaps for Grafana dashboards to be
 # provisioned using [Hoenir](https://github.com/Valensas/Hoenir).
 extraDashboards: {}
