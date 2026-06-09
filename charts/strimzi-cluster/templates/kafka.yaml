@@ -1,4 +1,4 @@
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: {{ include "strimzi-cluster.apiVersion" . }}
 kind: Kafka
 metadata:
   name: {{ include "strimzi-cluster.clusterName" . }}
@@ -7,8 +7,6 @@ metadata:
     {{ . | toYaml | nindent 4 }}
     {{- end }}
     {{- include "strimzi-cluster.labels" . | nindent 4 }}
-    strimzi.io/kraft: enabled
-    strimzi.io/node-pools: enabled
   {{- with .Values.cluster.labels }}
   labels:
     {{ . | toYaml | nindent 4 }}

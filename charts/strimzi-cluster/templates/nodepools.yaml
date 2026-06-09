@@ -1,5 +1,5 @@
 {{- range $pool := .Values.pools -}}
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: {{ include "strimzi-cluster.apiVersion" $ }}
 kind: KafkaNodePool
 metadata:
   name: {{ $pool.name | required "pool name required" | quote }}

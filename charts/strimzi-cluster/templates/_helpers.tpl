@@ -44,6 +44,15 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
+Strimzi CRD API version.
+Use "kafka.strimzi.io/v1beta2" for Strimzi <= 0.51 and "kafka.strimzi.io/v1" for Strimzi >= 1.0.
+The v1 API is served from 0.49 onwards; v1beta2 is removed in 1.0.
+*/}}
+{{- define "strimzi-cluster.apiVersion" -}}
+{{- .Values.strimzi.apiVersion | default "kafka.strimzi.io/v1" -}}
+{{- end }}
+
+{{/*
 Name of the cluster being deployed
 */}}
 {{- define "strimzi-cluster.clusterName" -}}

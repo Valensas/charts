@@ -1,5 +1,5 @@
 {{- range $topic := $.Values.topics }}
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: {{ include "strimzi-cluster.apiVersion" $ }}
 kind: KafkaTopic
 metadata:
   name: {{ trimAll "_" $topic.name | replace "." "-" | replace "_" "-" }}
