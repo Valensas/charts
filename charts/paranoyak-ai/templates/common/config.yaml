@@ -19,8 +19,17 @@ data:
   DATABASE_NAME: {{ $.Values.config.postgres.database | required "config.postgres.database is required" | quote }}
   DATABASE_HOST: {{ $.Values.config.postgres.host | required "config.postgres.host is required" | quote }}
   DATABASE_PORT: {{ $.Values.config.postgres.port | required "config.postgres.port is required" | quote }}
+
   # Metabase Configuration
   METABASE_BASE_URL: {{ .Values.config.metabase.url | required "config.metabase.url is required" | quote }}
+
+  # SMTP / Mail Configuration
+  SPRING_MAIL_HOST: {{ .Values.config.smtp.host | required "config.smtp.host is required" | quote }}
+  SPRING_MAIL_PORT: {{ .Values.config.smtp.port | quote }}
+  SPRING_MAIL_SMTP_AUTH: {{ .Values.config.smtp.smtpAuth | quote }}
+  SPRING_MAIL_STARTTLS_ENABLE: {{ .Values.config.smtp.starttlsEnable | quote }}
+  MAIL_FROM: {{ .Values.config.smtp.from | required "config.smtp.from is required" | quote }}
+  MAIL_FROM_NAME: {{ .Values.config.smtp.fromName | required "config.smtp.fromName is required" | quote }}
 
   # Spring Configuration
   SERVER_PORT: {{ $.Values.config.spring.containerPort | quote }}

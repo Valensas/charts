@@ -314,3 +314,12 @@ config:
   metabase: {}
     # url:
     # embedSecret:
+  smtp:
+    # host:
+    port: 25
+    smtpAuth: false
+    starttlsEnable: false
+    from: noreply@paranoyak.ai
+    fromName: paranoyak.ai
+    # username:
+    # password:
