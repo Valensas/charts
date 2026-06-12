@@ -5,7 +5,8 @@ metadata:
   labels:
     {{- include "paranoyak-ai.labels" $ | nindent 4 }}
 data:
-  API_BASE_URL: {{ .Values.config.apiBaseUrl | required "config.apiBaseUrl is required" | quote }}
+  API_BASE_URL: {{ .Values.config.backend.url | required "config.backend.url is required" | quote }}
+  FRONTEND_BASE_URL: {{ .Values.config.frontend.url | required "config.frontend.url is required" | quote }}
   # DeepSeek Configuration
   DEEPSEEK_URL: {{ $.Values.config.deepseek.url | required "config.deepseek.url is required" | quote }}
   DEEPSEEK_MODEL: {{ $.Values.config.deepseek.model | required "config.deepseek.model is required" | quote }}

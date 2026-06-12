@@ -297,6 +297,8 @@ config:
     tracingBaggageRemoteFields: "x-client-ip,b3,x-b3-parentspanid,x-b3-sampled,x-b3-traceid,x-request-id"
   backend:
     url: http://backend/api
+  frontend:
+    url: http://frontend
   postgres: {}
     # database:
     # host:
