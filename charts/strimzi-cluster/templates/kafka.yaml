@@ -37,6 +37,7 @@ spec:
     {{- end }}
     template:
       pod:
+        {{- if or $.Values.podAnnotations .Values.cluster.pod.labels }}
         metadata:
           {{- with .Values.cluster.pod.labels }}
           labels:
@@ -46,16 +47,23 @@ spec:
           annotations:
             {{- . | toYaml | nindent 12 }}
           {{- end }}
+        {{- end }}
         {{- if $.Values.affinity }}
         affinity:
             {{- include "common.tplvalues.render" ( dict "value" $.Values.affinity "context" $) | nindent 12 }}
         {{- else }}
         affinity:
           {{- $podLabels := dict "strimzi.io/cluster" (include "strimzi-cluster.clusterName" $) "strimzi.io/component-type" "kafka" }}
+          {{- if $.Values.podAffinityPreset }}
           podAffinity:
             {{- include "common.affinities.pods" (dict "type" $.Values.podAffinityPreset "extraMatchLabels" $podLabels "context" $) | nindent 12 }}
+          {{- end }}
+          {{- if $.Values.podAntiAffinityPreset }}
           podAntiAffinity:
             {{- include "common.affinities.pods" (dict "type" $.Values.podAntiAffinityPreset "extraMatchLabels" $podLabels "context" $) | nindent 12 }}
+          {{- end }}
+          {{- if $.Values.nodeAffinityPreset.type }}
           nodeAffinity:
             {{- include "common.affinities.nodes" (dict "type" $.Values.nodeAffinityPreset.type "key" $.Values.nodeAffinityPreset.key "values" $.Values.nodeAffinityPreset.values) | nindent 14 }}
+          {{- end }}
           {{- end }}
