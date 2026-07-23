@@ -171,6 +171,23 @@ podMonitor:
   enabled: false
   # interval: 30s
 
+## OpenTelemetry configuration. When enabled, these values are rendered into
+## the atlas-config ConfigMap and injected into the containers as environment
+## variables. Values are rendered as templates, so release context can be used.
+## `exporterOtlpEndpoint` has no default and is required when otel is enabled.
+otel:
+  enabled: false
+  tracesExporter: "otlp"
+  metricsExporter: "none"
+  logsExporter: "none"
+  exporterOtlpProtocol: "grpc"
+  exporterOtlpEndpoint: ""
+  tracesSampler: "parentbased_traceidratio"
+  tracesSamplerArg: "0.8"
+  resourceAttributes: "service.namespace={{ .Release.Namespace }}"
+  propagators: "b3multi"
+  sdkDisabled: "false"
+
 updateCronJob:
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 0

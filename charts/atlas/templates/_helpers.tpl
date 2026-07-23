@@ -73,4 +73,7 @@ Create the name of the service account to use
 {{- toYaml . | nindent 8 }}
 {{- end }}
 config/checksum: {{ include (print $.Template.BasePath "/atlas-secret.yaml") . | sha256sum }}
+{{- if .Values.otel.enabled }}
+otel-config/checksum: {{ include (print $.Template.BasePath "/atlas-config.yaml") . | sha256sum }}
+{{- end }}
 {{- end }}

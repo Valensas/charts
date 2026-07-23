@@ -46,6 +46,10 @@ spec:
             envFrom:
              - secretRef:
                   name: {{ include "atlas.fullname" . }}
+             {{- if .Values.otel.enabled }}
+             - configMapRef:
+                  name: {{ include "atlas.fullname" . }}-config
+             {{- end }}
             env:
               - name: SPRING_FLYWAY_ENABLED
                 value: 'false'
