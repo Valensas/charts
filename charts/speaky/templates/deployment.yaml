@@ -64,6 +64,9 @@ spec:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /firebase/service-account.json
             {{- end }}
+            {{- with .Values.extraEnv }}
+            {{- include "common.tplvalues.render" (dict "value" . "context" $) | nindent 12 }}
+            {{- end }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{ . | toYaml | nindent 12 }}

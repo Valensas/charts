@@ -89,6 +89,17 @@ podMonitor:
   enabled: false
   # interval: 30s
 
+# Additional environment variables for the application container.
+# Rendered as templates, so release context can be used.
+extraEnv: []
+# - name: FOO
+#   value: "bar"
+# - name: BAZ
+#   valueFrom:
+#     secretKeyRef:
+#       name: mysecret
+#       key: baz
+
 # Additional volumes on the output Deployment definition.
 volumes: []
 # - name: foo
