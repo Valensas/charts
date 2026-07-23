@@ -53,4 +53,7 @@ spec:
             env:
               - name: SPRING_FLYWAY_ENABLED
                 value: 'false'
+              {{- with .Values.extraEnv }}
+              {{- include "common.tplvalues.render" (dict "value" . "context" $) | nindent 14 }}
+              {{- end }}
 ---

@@ -46,6 +46,10 @@ spec:
            - configMapRef:
                 name: {{ include "atlas.fullname" . }}-config
            {{- end }}
+          {{- with .Values.extraEnv }}
+          env:
+            {{- include "common.tplvalues.render" (dict "value" . "context" $) | nindent 12 }}
+          {{- end }}
           livenessProbe:
             {{- .Values.livenessProbe | toYaml | nindent 12 }}
           readinessProbe:
