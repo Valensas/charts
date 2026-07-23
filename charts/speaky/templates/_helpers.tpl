@@ -84,4 +84,7 @@ checksum/sms-secret: {{ include (print $.Template.BasePath "/config/sms-secret.y
 checksum/smtp-secret: {{ include (print $.Template.BasePath "/config/smtp-secret.yaml") . | sha256sum }}
 checksum/smtp-config: {{ include (print $.Template.BasePath "/config/smtp-config.yaml") . | sha256sum }}
 {{- end }}
+{{- if .Values.otel.enabled }}
+checksum/otel-config: {{ include (print $.Template.BasePath "/config/otel-config.yaml") . | sha256sum }}
+{{- end }}
 {{- end }}

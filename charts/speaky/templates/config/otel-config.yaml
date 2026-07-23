@@ -1,0 +1,19 @@
+{{- if .Values.otel.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "speaky.fullname" . }}-otel
+  labels:
+    {{- include "speaky.labels" . | nindent 4 }}
+data:
+  OTEL_TRACES_EXPORTER: {{ .Values.otel.tracesExporter | quote }}
+  OTEL_METRICS_EXPORTER: {{ .Values.otel.metricsExporter | quote }}
+  OTEL_LOGS_EXPORTER: {{ .Values.otel.logsExporter | quote }}
+  OTEL_EXPORTER_OTLP_PROTOCOL: {{ .Values.otel.exporterOtlpProtocol | quote }}
+  OTEL_EXPORTER_OTLP_ENDPOINT: {{ .Values.otel.exporterOtlpEndpoint | required "otel.exporterOtlpEndpoint is required when otel is enabled" | quote }}
+  OTEL_TRACES_SAMPLER: {{ .Values.otel.tracesSampler | quote }}
+  OTEL_TRACES_SAMPLER_ARG: {{ .Values.otel.tracesSamplerArg | quote }}
+  OTEL_RESOURCE_ATTRIBUTES: {{ include "common.tplvalues.render" (dict "value" .Values.otel.resourceAttributes "context" $) | quote }}
+  OTEL_PROPAGATORS: {{ .Values.otel.propagators | quote }}
+  OTEL_SDK_DISABLED: {{ .Values.otel.sdkDisabled | quote }}
+{{- end }}

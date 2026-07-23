@@ -9,3 +9,15 @@ helm install speaky oci://ghcr.io/valensas/charts/speaky
 ```
 
 Take a look at `values.yaml` for all available configuration options.
+
+## OpenTelemetry
+
+OpenTelemetry is disabled by default. When enabled, the OTel settings are rendered into a ConfigMap (`<release>-speaky-otel`) and injected into the container as environment variables. `otel.exporterOtlpEndpoint` has no default and must be provided:
+
+```yaml
+otel:
+  enabled: true
+  exporterOtlpEndpoint: "http://<collector-host>:4317"
+```
+
+All other settings (`tracesExporter`, `metricsExporter`, `logsExporter`, `exporterOtlpProtocol`, `tracesSampler`, `tracesSamplerArg`, `resourceAttributes`, `propagators`, `sdkDisabled`) have sensible defaults — see `values.yaml`. Values are rendered as Helm templates, so release context such as `{{ .Release.Namespace }}` is available.
