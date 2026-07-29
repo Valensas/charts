@@ -28,7 +28,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "paranoyak-ai.component.labels" $ctx | nindent 8 }}
+        {{- include "paranoyak-ai.podLabels" $ctx | nindent 8 }}
         {{- with $values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -377,6 +377,51 @@ Expects: dict "root" $ "component" "<name>"
 {{- else -}}
 {{ printf "%s:%s" $repository $tag }}
 {{- end -}}
+{{- end }}
+
+{{/*
+Render a Hazelcast RoleBinding for Kubernetes pod discovery.
+Only called when hazelcast.enabled=true.
+Expects: $ (root context)
+*/}}
+{{- define "paranoyak-ai.hazelcast.rolebinding" -}}
+{{- $ctx := dict "root" . "component" "backend" -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "paranoyak-ai.component.fullname" $ctx }}-hazelcast-node
+  labels:
+    {{- include "paranoyak-ai.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: hazelcast-node
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "paranoyak-ai.component.serviceAccountName" $ctx | quote }}
+    namespace: {{ .Release.Namespace | quote }}
+{{- end }}
+
+{{/*
+Render a Hazelcast Service for embedded mode.
+Only called when hazelcast.enabled=true and hazelcast.cluster is not set.
+Expects: $ (root context)
+*/}}
+{{- define "paranoyak-ai.hazelcast.service" -}}
+{{- $ctx := dict "root" . "component" "backend" -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: hazelcast-{{ include "paranoyak-ai.component.fullname" $ctx }}
+  labels:
+    {{- include "paranoyak-ai.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5701
+      name: tcp-hazelcast
+  selector:
+    {{- include "paranoyak-ai.component.selectorLabels" $ctx | nindent 4 }}
 {{- end }}
 
 {{/*

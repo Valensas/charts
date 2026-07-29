@@ -285,6 +285,14 @@ backend:
               type: PathPrefix
               value: /
 
+  # ----------------------------------------------------------------------------
+  # Hazelcast
+  # ----------------------------------------------------------------------------
+  hazelcast:
+    # -- Set to true to enable embedded Hazelcast support.
+    enabled: true
+
+
 # ----------------------------------------------------------------------------
 # Shared application config & secrets, consumed by frontend and backend
 # via envFrom (rendered into a ConfigMap and a Secret in templates/common/).

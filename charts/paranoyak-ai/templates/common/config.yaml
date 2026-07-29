@@ -40,3 +40,11 @@ data:
   MANAGEMENT_TRACING_BAGGAGE_REMOTEFIELDS: {{ $.Values.config.spring.tracingBaggageRemoteFields | quote }}
   MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS: always
   MANAGEMENT_ENDPOINT_HEALTH_SHOWCOMPONENTS: always
+
+  {{- if .Values.backend.hazelcast.enabled }}
+  # Hazelcast Configuration
+  HAZELCAST_PHONE_HOME_ENABLED: "false"
+  HAZELCAST_KUBERNETES_ENABLED: "true"
+  HAZELCAST_KUBERNETES_RESOLVE_NOT_READY_ADDRESSES: "true"
+  HAZELCAST_KUBERNETES_SERVICE_NAME: hazelcast-paranoyak-ai-backend
+  {{- end }}

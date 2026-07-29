@@ -1,0 +1,3 @@
+{{- if .Values.backend.hazelcast.enabled -}}
+{{- include "paranoyak-ai.hazelcast.rolebinding" $ }}
+{{- end }}
