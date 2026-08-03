@@ -71,6 +71,17 @@ app.kubernetes.io/component: {{ .component }}
 {{- end }}
 
 {{/*
+Pod template labels: component labels plus optional Hazelcast cluster label.
+Expects: dict "root" $ "component" "<name>"
+*/}}
+{{- define "paranoyak-ai.podLabels" -}}
+{{ include "paranoyak-ai.component.labels" . }}
+{{- if (.root.Values.config.hazelcast | default dict).cluster }}
+hazelcast.paranoyak-ai.com/cluster: {{ .root.Values.config.hazelcast.cluster | quote }}
+{{- end }}
+{{- end }}
+
+{{/*
 Component service account name.
 Expects: dict "root" $ "component" "frontend"
 */}}

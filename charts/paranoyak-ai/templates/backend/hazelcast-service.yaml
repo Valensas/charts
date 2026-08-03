@@ -1,0 +1,3 @@
+{{- if .Values.config.hazelcast.enabled -}}
+{{- include "paranoyak-ai.hazelcast.service" $ }}
+{{- end }}

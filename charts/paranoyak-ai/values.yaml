@@ -285,9 +285,14 @@ backend:
               type: PathPrefix
               value: /
 
+
 # ----------------------------------------------------------------------------
-# Shared application config & secrets, consumed by frontend and backend
-# via envFrom (rendered into a ConfigMap and a Secret in templates/common/).
+# Application config & secrets, consumed via envFrom.
+# Most keys land in the shared ConfigMap/Secret in templates/common/ (mounted
+# on frontend and backend); config.spring, config.smtp and config.hazelcast are
+# rendered into a backend-only ConfigMap in templates/backend/config.yaml.
+# Everything under config is hashed into the pods' checksum/config annotation,
+# so changing any of it rolls the deployments.
 # ----------------------------------------------------------------------------
 config:
   spring:
@@ -325,3 +330,8 @@ config:
     fromName: paranoyak.ai
     # username:
     # password:
+  hazelcast:
+    # -- Set to true to enable embedded Hazelcast support on the backend.
+    enabled: true
+    # -- Optional shared cluster label applied to pod templates.
+    # cluster:

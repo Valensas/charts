@@ -23,20 +23,3 @@ data:
 
   # Metabase Configuration
   METABASE_BASE_URL: {{ .Values.config.metabase.url | required "config.metabase.url is required" | quote }}
-
-  # SMTP / Mail Configuration
-  SPRING_MAIL_HOST: {{ .Values.config.smtp.host | required "config.smtp.host is required" | quote }}
-  SPRING_MAIL_PORT: {{ .Values.config.smtp.port | quote }}
-  SPRING_MAIL_SMTP_AUTH: {{ .Values.config.smtp.smtpAuth | quote }}
-  SPRING_MAIL_STARTTLS_ENABLE: {{ .Values.config.smtp.starttlsEnable | quote }}
-  MAIL_FROM: {{ .Values.config.smtp.from | required "config.smtp.from is required" | quote }}
-  MAIL_FROM_NAME: {{ .Values.config.smtp.fromName | required "config.smtp.fromName is required" | quote }}
-
-  # Spring Configuration
-  SERVER_PORT: {{ $.Values.config.spring.containerPort | quote }}
-  SERVER_FORWARDHEADERSSTRATEGY: {{ $.Values.config.spring.forwardHeadersStrategy | quote }}
-  MANAGEMENT_SERVER_PORT: {{ $.Values.config.spring.managementPort | quote }}
-  MANAGEMENT_METRICS_WEB_SERVER_REQUEST_AUTOTIME_ENABLED: 'true'
-  MANAGEMENT_TRACING_BAGGAGE_REMOTEFIELDS: {{ $.Values.config.spring.tracingBaggageRemoteFields | quote }}
-  MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS: always
-  MANAGEMENT_ENDPOINT_HEALTH_SHOWCOMPONENTS: always
