@@ -310,9 +310,10 @@ config:
     # port:
     # user:
     # password:
-  deepseek:
-    url: https://api.deepseek.com
-    model: "deepseek-chat"
+  openai:
+    url: ""
+    model: ""
+    enabled: "true"
     # apiKey:
   keycloak: {}
     # url:
