@@ -42,6 +42,12 @@ dashboards:
     enabled: true
   resourceOverview:
     enabled: true
+  backendPerformance:
+    enabled: true
+  goServiceHealth:
+    enabled: true
+  goApiPerformance:
+    enabled: true
 # Create ConfigMaps for Grafana dashboards to be
 # provisioned using [Hoenir](https://github.com/Valensas/Hoenir).
 extraDashboards: {}

@@ -1,0 +1,13 @@
+{{- if and .Values.dashboards.enabled .Values.dashboards.goApiPerformance.enabled }}
+{{ $name := printf "%s-go-api-performance-dashboard" .Release.Namespace }}
+{{ $uid :=  $name | sha1sum }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{- include "monitoring-extras.dashboardLabels" . | nindent 4 }}
+  name: {{ $name | quote }}
+data:
+  {{ $name }}.json: |
+    {{- $.Files.Get "dashboards/go-api-performance.json" | replace "\"uid\": \"$uid\"" (printf "\"uid\": \"%s\"" $uid) | nindent 4 }}
+{{- end }}

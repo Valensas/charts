@@ -1,0 +1,13 @@
+{{- if and .Values.dashboards.enabled .Values.dashboards.backendPerformance.enabled }}
+{{ $name := printf "%s-backend-performance-dashboard" .Release.Namespace }}
+{{ $uid :=  $name | sha1sum }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{- include "monitoring-extras.dashboardLabels" . | nindent 4 }}
+  name: {{ $name | quote }}
+data:
+  {{ $name }}.json: |
+    {{- $.Files.Get "dashboards/backend-performance.json" | replace "\"name\": \"$uid\"" (printf "\"name\": \"%s\"" $uid) | nindent 4 }}
+{{- end }}
