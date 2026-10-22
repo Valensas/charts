@@ -1,0 +1,62 @@
+
+replicaCount: 1
+
+image:
+  # Built from https://github.com/Valensas/Containers/tree/master/ocr
+  repository: valensas/ocr
+  pullPolicy: IfNotPresent
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+containerPort: 5483
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts: []
+  tls: []
+
+extraAllowedHosts: []
+
+sessions:
+  existingClaim: ""
+  mountPropagation: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  # The image's nonroot user.
+  runAsUser: 65532
+  runAsGroup: 65532
+
+securityContext:
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 64Mi
+  limits:
+    memory: 256Mi
+
+extraEnv: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
