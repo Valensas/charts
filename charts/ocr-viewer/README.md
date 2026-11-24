@@ -42,7 +42,7 @@ without a pod restart. Without a claim the pod gets an emptyDir and the index st
 - **No authentication.** A session holds the reviewed source plus the LLM's analysis of it. Keep the ingress
   internal, or put something like [oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy) in front.
 - **The `Host` allowlist is default-deny**, to block DNS rebinding against the local CLI viewer. The chart
-  fills `OCR_VIEWER_ALLOWED_HOSTS` from `ingress.hosts`; a host reaching the pod some other way needs
+  fills `OCR_VIEWER_ALLOWED_HOSTS` from `ingress.hosts` (when the Ingress is enabled) and `httpRoute.hostnames` (when the HTTPRoute is enabled); a host reaching the pod some other way needs
   `extraAllowedHosts` or it gets a `403 forbidden host` that reads like a broken backend.
 - **Read-only is enough.** The viewer's HTTP surface is GET-only; marking a finding fixed or ignored is
   browser-side state.

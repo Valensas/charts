@@ -17,6 +17,14 @@ service:
   type: ClusterIP
   port: 80
 
+# Gateway API HTTPRoute (alternative to the Ingress)
+httpRoute:
+  enabled: false
+  annotations: {}
+  # Gateways to attach to, e.g. [{name: my-gateway, namespace: gateway-system}]
+  parentRefs: []
+  hostnames: []
+
 ingress:
   enabled: false
   className: ""

@@ -35,8 +35,15 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 
 {{- define "ocr-viewer.allowedHosts" -}}
 {{- $hosts := list }}
+{{- if .Values.ingress.enabled }}
 {{- range .Values.ingress.hosts }}
 {{- $hosts = append $hosts .host }}
+{{- end }}
+{{- end }}
+{{- if .Values.httpRoute.enabled }}
+{{- range .Values.httpRoute.hostnames }}
+{{- $hosts = append $hosts . }}
+{{- end }}
 {{- end }}
 {{- range .Values.extraAllowedHosts }}
 {{- $hosts = append $hosts . }}
